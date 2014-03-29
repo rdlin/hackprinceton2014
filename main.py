@@ -175,6 +175,12 @@ def get_new_albums_jsonified(count="10"):
         return Exception("Status for getting trending albums returned not ok")
     return jsonify(data=search_results["result"])
 
+@app.route("/tracks/<key>")
+def get_tracks_for_album_key(key=None):
+    keys = []
+    keys.append(key)
+    return jsonify(data=get_tracks_for_album(get_objects_for_keys(keys)[0]))
+
 def get_tracks_for_album(album):
     track_keys = []
     for track_key in album["trackKeys"]:

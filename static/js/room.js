@@ -49,15 +49,35 @@ $(document).ready(function() {
         if (res.length !== 0) {
           res += "<br>";
         }
-        res += '<button style="width:500px" value="' + 'www.example.com' + '">' + $element.name + ' &mdash; ' + $element.artist + '</button>';
+        res += '<button style="width:500px" value="' + $element.key + '">' + $element.name + ' &mdash; ' + $element.artist + '</button>';
       }
       $albums.html(res);
 
       $albums.find('button').on('click', function() {
-        $albums.html('<embed src="/static/images/spinner.gif"> ');
-        var url = $(this).attr('value');
-        var res = '<embed src="' + url + '">';
-        $albums.html(res);
+        var key = $(this).attr('value');
+        var top_songs = function() {
+          $("#albums").hide();
+          $.get('/tracks/' + key, function(data) {
+            var res = "";
+            for (var i = 0; i < Object.keys(data.data).length; i++) {
+              var $element = data.data[i];
+              if (res.length !== 0) {
+                res += "<br>";
+              }
+              res += '<button style="width:500px" value="' + $element.embedUrl + '">' + $element.name + ' &mdash; ' + $element.artist + '</button>';
+            }
+          $songs.html(res);
+
+          $songs.find('button').on('click', function() {
+            $songs.html('<embed src="/static/images/spinner.gif"> ');
+            var url = $(this).attr('value');
+            var res = '<embed src="' + url + '">';
+              $songs.html(res);
+            });
+          });
+        };
+        top_songs();
+        $("#songs").show();
       });
     });
   };

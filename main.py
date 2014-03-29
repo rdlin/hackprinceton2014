@@ -55,7 +55,7 @@ rdio = None
 
 #Global rdio with authentication
 def set_rdio():
-    global rdio 
+    global rdio
     rdio = Rdio(("ucvxaju3gq3natuvp9w6uxrv", "vwnQkPkDhM"))
 
 #endpoints, mostly for testing

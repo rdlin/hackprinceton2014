@@ -14,7 +14,7 @@ def get_lyrics_for_song_name(name='', artist='', lyrics=''):
     return track_result_list[0].lyrics()['lyrics_body']
 
 def get_property_from_top_chart(property):
-    #pdb.set_trace()
+    #http://www.rdio.com/developers/docs/web-service/types/track/
     rdio = Rdio(("ucvxaju3gq3natuvp9w6uxrv", "vwnQkPkDhM"))
     topChartsRequest = rdio.call("getTopCharts", {"type": "Track"})
     if (topChartsRequest["status"] != "ok"):

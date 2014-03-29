@@ -17,6 +17,11 @@
     </ul>
   </div>
 
+  <div class="alert alert-warning js-room-error-wrap" style="display: none">
+    <a href="#" class="close" data-dismiss="alert">&times;</a>
+    <strong>Sorry!</strong> <div class="js-room-error">{{error}}</div>
+  </div>
+    
   <div id="container">
     <div id="player1" class="players"></div>
     <div id="player2" class="players"></div>
@@ -26,10 +31,11 @@
              class="js-search-text"
              placeholder="Type to search">
       </input>
-      <button type="button" class="btn btn-primary">Search</button>
+      <button type="button" class="btn btn-primary button-search">Search</button>
       <div id="songs">
          <embed src="/static/images/spinner.gif">
       </div>
+      <button type="button" class="btn btn-primary button-start">Start</button>
     </div>
   </div>
 {% endblock %}

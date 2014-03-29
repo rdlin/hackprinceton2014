@@ -21,6 +21,7 @@ var top_songs = function() {
     $songs.html(res);
 
     $songs.find('a').on('click', function() {
+      $songs.html('<embed src="/static/images/spinner.gif"> ');
       var url = $(this).attr('value');
       var res = '<embed src="' + url + '">';
       $songs.html(res);
@@ -28,3 +29,18 @@ var top_songs = function() {
   });
 };
 top_songs();
+
+$('.button-start').on('click', function() {
+  var room_name = $('.js-roomname').val();
+  $.get('/room/' + room_name, function(data) {
+    if (data.hasOwnProperty('error')) {
+      $('.js-room-error').html(data.error);
+      $('.js-room-error-wrap').attr('style', 'display: display');
+    } else {
+      // You have the names here
+      // Don't forget to change the number in the python function to 3
+      // the minimum number of people needed for a game to start
+      var players = data.data;
+    }
+  });
+});

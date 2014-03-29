@@ -8,6 +8,7 @@ from pymongo import Connection
 import pdb
 from rdio import Rdio
 from musixmatch import track
+import random
 
 app = Flask(__name__)
 app = Flask(__name__)
@@ -200,6 +201,19 @@ def verify_search_results(search_results):
     return True
 
 # SONG UTIL ENDS HERE
+
+
+# Randomly returns two users from the users that are in a room
+# If there are not enough people, error message is displayed
+@app.route('/room/<room_name>')
+def choosePlayers(room_name):
+    # Change this number to 3 eventually
+    if (collection.count() < 1):
+        return jsonify(error="There should be at least 3 people in the room for a game to start.")
+    users = set()
+    for user in collection.find():
+        users.add(user.get('username'))
+    return jsonify(data=random.sample(users, 2))
 
 if __name__ == '__main__':
     set_rdio()

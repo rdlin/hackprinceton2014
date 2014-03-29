@@ -43,9 +43,9 @@ $(document).ready(function() {
   });
 
   // TODO: Check splice, perhaps do this better
-  socket.on('player_disconnected', function(data) {
-    players.splice(players[:-1]);
-  });
+  //socket.on('player_disconnected', function(data) {
+  //  players.splice(players[:-1]);
+  //});
 
   // TODO: Make unique by room level
   // Initalize peers

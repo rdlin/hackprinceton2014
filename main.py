@@ -30,34 +30,31 @@ ready.remove()
 def home():
     if request.method == 'GET':
         if request.args.get('error') != None:
-            render_template('index.html',
+            return render_template('index.html',
                             room=request.args.get('room'),
                             username=request.args.get('username'),
                             error=request.args.get('error'));
-        return render_template('index.html')
+        else:
+            return render_template('index.html')
     else:
         # process room and stuff here
         username = request.form['username']
         room = request.form['room']
-        if (collection.find_one({'room': room, 'username': username}) == None):
-            collection.insert({'room': room, 'username': username})
-            return redirect(url_for('room', room=room, username=username))
-        else:
-            render_template('index.html',
-                            room=request.args.get('room'),
-                            username=request.args.get('username'),
-                            error=request.args.get('error'));
-            return redirect(url_for('home', room=room, username=username, error=' This user has already been taken for this room.'))
+        return redirect(url_for('room', room=room, username=username))
 
 @app.route('/room/<room>/<username>/')
 def room(room, username):
     if (collection.find_one({'room': room, 'username': username}) == None):
         collection.insert({'room': room, 'username': username})
-    return render_template('room.html', room=room, username=username)
+        return render_template('room.html', room=room, username=username)
+    else:
+        return redirect(url_for('home', room=room, username=username,
+            error=' This user has already been taken for this room.'))
 
 @app.route('/leave/<room>/<username>/', methods=['POST'])
 def leave(room, username):
     collection.remove({'room': room, 'username':username})
+    return ''
 
 def renderErrorInTemplate(template, room, username, error):
     return render_template(template, room=room, username=username, error=error);

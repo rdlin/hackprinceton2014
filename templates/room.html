@@ -50,7 +50,12 @@
     </div>
 
     <div id="users">
-
+      users: {{ users }}
+      {% for user in users %}
+      <div class="label label-primary">
+        <span class="glyphicon glyphicon-user"></span>{{user}}
+      </div>
+      {% endfor %}
     </div>
   </div>
 {% endblock %}

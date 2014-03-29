@@ -59,22 +59,16 @@ def set_rdio():
     rdio = Rdio(("ucvxaju3gq3natuvp9w6uxrv", "vwnQkPkDhM"))
 
 #endpoints, mostly for testing
-
-@app.route("/")
-def get_names_string():
-    set_rdio()
-    return "Hello World"
-
-@app.route("/search/<item>/<track_name>")
+@app.route("/search/<item>/<track_name>/")
 def get_item_for_track_name_search(track_name=None, item=None):
     return "<br>".join(get_tracks_item_list("name", search_for_tracks(track_name)))
 
-@app.route("/topchart")
+@app.route("/topchart/")
 def get_item_string_for_top_chart_tracks(item=None):
     return "<br>".join(get_tracks_item_list("name", get_top_chart_tracks()))
 
 #getting lyrics and a bunch of other information for a track search
-@app.route("/search/<track_name>/info")
+@app.route("/search/<track_name>/info/")
 def get_info_for_track_name_search(track_name=None):
     displayString = ""
     for track in search_for_tracks(track_name):
@@ -85,7 +79,7 @@ def get_info_for_track_name_search(track_name=None):
     return displayString
 
 #getting lyrics and a bunch of other information for a track search by artist
-@app.route("/search/artist/<artist_name>/info")
+@app.route("/search/artist/<artist_name>/info/")
 def get_info_for_track_name_by_artist_search(artist_name=None):
     displayString = ""
     for track in search_for_tracks(artist_name):
@@ -96,7 +90,7 @@ def get_info_for_track_name_by_artist_search(artist_name=None):
     return displayString
 
 #getting and testing album methods
-@app.route("/albums/new")
+@app.route("/albums/new/")
 def get_new_albums_this_week():
     displayString = ""
     for album in get_new_albums():
@@ -107,7 +101,7 @@ def get_new_albums_this_week():
     return displayString
 
 #getting and testing album methods
-@app.route("/albums/trending")
+@app.route("/albums/trending/")
 def get_trending_albums_this_week():
     displayString = ""
     for album in get_trending_albums():
@@ -136,7 +130,7 @@ def filterLyrics(lyrics):
 
 #Track specific
 
-@app.route("/toptracks")
+@app.route("/toptracks/")
 def get_top_chart_tracks(count="20"):
     #http://www.rdio.com/developers/docs/web-service/types/track/ for properties types
     top_charts_request = rdio.call("getTopCharts", {"type": "Track", "count": count})

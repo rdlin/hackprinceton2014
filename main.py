@@ -20,6 +20,7 @@ db = connection['rooms-database']
 collection = db['rooms']
 collection.remove()
 
+# routes
 @app.route('/', methods=['GET', 'POST'])
 def home():
     if request.method == 'GET':
@@ -51,7 +52,6 @@ def renderErrorInTemplate(template, room, username, error):
     return render_template(template, room=room, username=username, error=error);
 
 # SONG UTIL STARTS HERE
-
 rdio = None
 
 #Global rdio with authentication

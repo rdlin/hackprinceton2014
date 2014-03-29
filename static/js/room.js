@@ -1,9 +1,10 @@
 var $songs = $('#songs');
 
+// perform log out action
 $(window).bind('beforeunload', function() {
   var username = $('.js-username').val(),
       room_name = $('.js-roomname').val();
-  $.post('/leave/' + room_name + '/' + username + '/', function(data) { });
+  $.post('/leave/' + room_name + '/' + username + '/');
   return 'Going to this url will log you out of this room.';
 });
 

@@ -25,7 +25,11 @@
                class="form-control"
                id="room"
                name="room"
-               value="{{room_name}}"
+               {% if room %}
+                  value="{{room}}"
+               {% else %}
+                  value="thundersnow"
+               {% endif %}
                placeholder="room name"
                required>
       </div>
@@ -35,7 +39,11 @@
                class="form-control"
                id="username"
                name="username"
-               value="{{username}}"
+               {% if username%}
+                 value="{{username}}"
+               {% else %}
+                  value="ponyta"
+               {% endif %}
                placeholder="username"
                required>
       </div>

@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-  {{ room_name }} - KJAM
+  {{ room}} - KJAM
 {% endblock %}
 
 {% block styles %}
@@ -10,10 +10,10 @@
 
 {% block content %}
   <input type="hidden" class="js-username" value="{{username}}">
-  <input type="hidden" class="js-roomname" value="{{room_name}}">
+  <input type="hidden" class="js-roomname" value="{{room}}">
   <div id="left-nav-wrapper">
     <ul class="left-nav">
-      <li><h2>{{ room_name }}</h2></li>
+      <li>You are currently in: {{ room}}</li>
     </ul>
   </div>
 

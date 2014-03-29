@@ -2,13 +2,10 @@
   padding-left: 250px;
   transition: all 0.4s ease 0s; }
 
-#container {
-  background-color: blue; }
-
 #content #left-nav-wrapper {
   margin-left: -250px;
   left: 250px;
-  width: 250px;
+  width: 300px;
   background: #000;
   color: white;
   position: fixed;
@@ -19,10 +16,10 @@
   #content #left-nav-wrapper .left-nav {
     position: absolute;
     top: 0;
-    width: 250px;
+    width: 100%;
     list-style: none;
     margin: 0;
-    padding-bottom: 40px; }
+    padding: 10px 20px 40px; }
 #content #container {
   height: 100%;
   width: 100%; }

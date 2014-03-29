@@ -27,27 +27,27 @@ def home():
         # process room and stuff here
         username = request.form['username']
         room = request.form['room']
-        return redirect(url_for('room', room_name=room, username=username))
-
-def renderErrorInTemplate(template, room_name, username, error):
-    return render_template(template, room_name=room_name, username=username, error=error);
-
-@app.route('/room/<room_name>/<username>/')
-def room(room_name, username):
-    if (collection.find_one({'room': room_name, 'username': username}) == None):
-        collection.insert({'room': room_name, 'username': username})
-        return render_template('room.html', room_name=room_name, username=username)
-    else:
-        return renderErrorInTemplate('index.html', room_name, username,
+        if (collection.find_one({'room': room, 'username': username}) == None):
+            collection.insert({'room': room, 'username': username})
+            return redirect(url_for('room', room=room, username=username))
+        else:
+            return renderErrorInTemplate('index.html', room, username,
                                          error=' This user has already been taken for this room.')
 
-@app.route('/leave/<room_name>/<username>/', methods=['POST'])
-def leave(room_name, username):
-    collection.remove({'room': room_name, 'username':username})
+@app.route('/room/<room>/<username>/')
+def room(room, username):
+    return render_template('room.html', room=room, username=username)
+
+@app.route('/leave/<room>/<username>/', methods=['POST'])
+def leave(room, username):
+    collection.remove({'room': room, 'username':username})
 
 @app.route('/sockets')
 def sock():
     return render_template('test.html')
+
+def renderErrorInTemplate(template, room, username, error):
+    return render_template(template, room=room, username=username, error=error);
 
 # SONG UTIL STARTS HERE
 

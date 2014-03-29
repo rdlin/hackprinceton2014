@@ -13,13 +13,13 @@ var top_songs = function() {
     var res = "";
     for (var i = 0; i < Object.keys(data.data).length; i++) {
       var $element = data.data[i];
-      if (res.length != 0) {
+      if (res.length !== 0) {
         res += "<br>";
       }
       res += '<a value="' + $element.embedUrl + '">' + $element.name + ' &mdash; ' + $element.artist + '</a>';
     }
     $songs.html(res);
-    
+
     $songs.find('a').on('click', function() {
       var url = $(this).attr('value');
       var res = '<embed src="' + url + '">';

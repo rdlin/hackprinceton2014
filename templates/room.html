@@ -1,1 +1,16 @@
 {% extends "base.html" %}
+
+{% block title %}
+  {{ room }} - KJAM
+{% endblock %}
+
+{% block styles %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/room.css') }}">
+{% endblock %}
+
+{% block content %}
+  <div id="container">
+  </div>
+  <div id="right-nav">
+  </div>
+{% endblock %}

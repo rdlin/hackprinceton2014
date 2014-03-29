@@ -1,0 +1,8 @@
+#container {
+  background-color: blue;
+  height: 100%; }
+
+#right-nav {
+  background-color: green;
+  width: 100px;
+  height: 100%; }

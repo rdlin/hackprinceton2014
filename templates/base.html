@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
@@ -9,7 +9,7 @@
   </head>
   <body>
     <div id="content">{% block content %}Default content{% endblock %}</div>
-    <div id="footer">{% block footer %}Default footer{% endblock %}</div>
+    <div id="footer">{% block footer %}Made with love by yexters{% endblock %}</div>
 
     <script src="{{ url_for('static', filename='js/jquery-2.1.0.js') }}"></script>
     <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>

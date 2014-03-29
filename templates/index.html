@@ -1,20 +1,28 @@
 {% extends "base.html" %}
 
 {% block title %}
-  ROOM HERE
+  Welcome to K-JAM!
 {% endblock %}
 
 {% block styles %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
 {% endblock %}
 
 {% block content %}
-  WE CAN SEND THIS BITCH UP, IT CAN'T GO DOWN
-{% endblock %}
-
-{% block footer %}
-  <h6>
-    Made with love by Yexters
-  </h6>
+  <div id="hp-background"></div>
+  <div class="hp-centered">
+    <form role="form">
+      <div class="form-group">
+        <label for="room">Room:</label>
+        <input type="text" class="form-control" id="room" placeholder="thundersnow">
+      </div>
+      <div class="form-group">
+        <label for="username">Username:</label>
+        <input type="text" class="form-control" id="username" placeholder="ponyta">
+      </div>
+      <button type="submit" class="btn btn-primary">Sign in</button>
+    </form>
+  </div>
 {% endblock %}
 
 {% block scripts %}

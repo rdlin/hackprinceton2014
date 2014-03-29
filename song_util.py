@@ -5,8 +5,7 @@ from rdio import Rdio
 
 #TODO(rdlin): add error checking EVERYWHERE
 
-app = Flask(__name__)
-rdio=None
+rdio = None
 
 #Global rdio with authentication
 def set_rdio():
@@ -24,8 +23,8 @@ def get_names_string():
 def get_item_for_track_name_search(track_name=None, item=None):
     return "<br>".join(get_tracks_item_list("name", search_for_tracks(track_name)))
 
-@app.route("/topchart/<item>")
-def get_item_string_for_top_chart_tracks(item=None):
+@app.route("/topchart")
+def get_item_string_for_top_chart_tracks():
     return "<br>".join(get_tracks_item_list("name", get_top_chart_tracks()))
 
 #getting lyrics and a bunch of other information for a track search
@@ -158,8 +157,3 @@ def verify_search_results(search_results):
     elif (len(search_results) == 0):
         raise Exception("Search result return no results")
     return True
-
-#python stuff
-
-if __name__ == "__main__":
-    app.run()

@@ -2,6 +2,9 @@
   padding-left: 250px;
   transition: all 0.4s ease 0s; }
 
+#container {
+  background-color: blue; }
+
 #content #left-nav-wrapper {
   margin-left: -250px;
   left: 250px;
@@ -22,3 +25,30 @@
 #content #container {
   height: 100%;
   width: 100%; }
+
+#browse-songs {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  width: 500px;
+  min-height: 300px;
+  background: gray; }
+  #browse-songs .js-search-text {
+    width: 270px;
+    height: 30px; }
+
+.players {
+  position: absolute;
+  height: 300px;
+  width: 300px;
+  min-height: 300px;
+  min-width: 300px;
+  background: blue; }
+
+#player1 {
+  left: 15%;
+  top: 20%; }
+
+#player2 {
+  right: 15%;
+  top: 20%; }

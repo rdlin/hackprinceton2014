@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-  {{ room }} - KJAM
+  {{ room_name }} - KJAM
 {% endblock %}
 
 {% block styles %}
@@ -9,8 +9,14 @@
 {% endblock %}
 
 {% block content %}
+  <input type="hidden" class="js-username" value="{{username}}">
+  <input type="hidden" class="js-roomname" value="{{room_name}}">
   <div id="container">
   </div>
   <div id="right-nav">
   </div>
+{% endblock %}
+
+{% block scripts %}
+  <script src="{{ url_for('static', filename='js/room.js')}}"></script>
 {% endblock %}

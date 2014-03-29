@@ -18,6 +18,7 @@ socketio = SocketIO(app)
 connection = Connection()
 db = connection['rooms-database']
 collection = db['rooms']
+collection.remove()
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
@@ -27,19 +28,23 @@ def home():
         # process room and stuff here
         username = request.form['username']
         room = request.form['room']
-        if (collection.find_one({'room': room, 'username': username}) == None):
-            collection.insert({'room': room, 'username': username})
-            return redirect(url_for('room', room=room))
-        else:
-            return renderErrorInTemplate('index.html', room, username,
-                                         error=' This user has already been taken for this room.')
+        return redirect(url_for('room', room_name=room, username=username))
 
 def renderErrorInTemplate(template, room_name, username, error):
     return render_template(template, room_name=room_name, username=username, error=error);
 
-@app.route('/room/<room_name>/')
-def room(room_name):
-    return render_template('room.html', room=room_name)
+@app.route('/room/<room_name>/<username>/')
+def room(room_name, username):
+    if (collection.find_one({'room': room_name, 'username': username}) == None):
+        collection.insert({'room': room_name, 'username': username})
+        return render_template('room.html', room_name=room_name, username=username)
+    else:
+        return renderErrorInTemplate('index.html', room_name, username,
+                                         error=' This user has already been taken for this room.')
+
+@app.route('/leave/<room_name>/<username>/', methods=['POST'])
+def leave(room_name, username):
+    collection.remove({'room': room_name, 'username':username})
 
 if __name__ == '__main__':
     if app.debug:

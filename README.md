@@ -1,4 +1,11 @@
 hackprinceton
 =============
 
-Karaoke app
+KJAM
+LITERALLY THE BEST
+
+made by
+FRONTEND MASTER BOGOEVSKI
+RDLIN
+CLI
+PRANJAL THE WIZARD

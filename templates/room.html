@@ -13,7 +13,9 @@
   <input type="hidden" class="js-roomname" value="{{room}}">
   <div id="left-nav-wrapper">
     <ul class="left-nav">
-      <li>You are currently in: {{ room}}</li>
+      <li class="sidebar-item">
+        You are in room: {{room}}
+      </li>
     </ul>
   </div>
 
@@ -21,7 +23,7 @@
     <a href="#" class="close" data-dismiss="alert">&times;</a>
     <strong>Sorry!</strong> <div class="js-room-error">{{error}}</div>
   </div>
-    
+
   <div id="container">
     <div id="player1" class="players"></div>
     <div id="player2" class="players"></div>

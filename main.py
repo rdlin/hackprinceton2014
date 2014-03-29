@@ -19,7 +19,11 @@ socketio = SocketIO(app)
 connection = Connection()
 db = connection['rooms-database']
 collection = db['rooms']
+ready = db['ready']
+chosen = db['chosen']
 collection.remove()
+chosen.remove()
+ready.remove()
 
 # routes
 @app.route('/', methods=['GET', 'POST'])
@@ -224,17 +228,48 @@ def verify_search_results(search_results):
 # SONG UTIL ENDS HERE
 
 
-# Randomly returns two users from the users that are in a room
+# Randomly chooses two players and saves those two players for that room in the database
 # If there are not enough people, error message is displayed
 @app.route('/room/<room_name>')
-def choosePlayers(room_name):
+def initPairPlayers(room_name):
     # Change this number to 3 eventually
-    if (collection.count() < 1):
+    if (collection.find({'room': room_name}).count() < 1):
         return jsonify(error="There should be at least 3 people in the room for a game to start.")
     users = []
-    for user in collection.find():
+    for user in ready.find():
         users.add(user.get('username'))
-    return jsonify(data=random.sample(users, 2))
+    selected = random.sample(users, 2)
+    # Remove the next line if you don't want calling initPairPlayers to delete the old pair
+    # from the database
+    chosen.remove({'room': room_name})
+    chosen.insert({'room': room_name, 'username': selected})
+    return jsonify(selected)
+
+# If a player is ready to play the game
+# doesn't return anything
+@app.route('/room/<room>/<username>/ready')
+def readyPlayer(room, username):
+    ready.insert({'room': room, 'username': username})
+    if ready.find({'room': room}).count() >= 3:
+        emit('game_ready');
+
+# Once two players have been chosen, this just returns a map of those two players
+@app.route('/room/<room>')
+def getPairPlayers(room):
+    return jsonify(data=chosen.find_one({'room': room}))
+
+# Gets one player and returns the a pair, the person the player we are removing was previously mapped
+# and one new person
+# error out if no more valid players
+@app.route('/room/<room>/<username>/invalid')
+def resetPlayers(room, username):
+    valid.remove({'room': room, 'username': username})
+    # ge the other user
+    user = chosen.find_one({'room': room, 'username': username})
+    pdb.set_trace()
+    if (valid.count() < 2):
+        return jsonify(error="There should be at least 3 people who can/want to play for a game to start.")
+
 
 # Returns a list of all players
 @app.route('/room/<room_name>/all_players', methods=['POST', 'GET'])
@@ -242,7 +277,8 @@ def allPlayersInRoom(room_name):
     users = []
     for user in collection.find():
         users.append(user.get('username'))
-    return jsonify(data=random.sample(users, len(users)))
+    # return jsonify(data=random.sample(users, len(users)))
+    return jsonify(data=users)
 
 if __name__ == '__main__':
     set_rdio()

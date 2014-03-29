@@ -1,55 +1,34 @@
-#wrap {
-  min-height: 100%;
-  height: 100%;
-  margin: 0 0 -40px;
-  padding: 0 0 40px;
-
-  #content {
+#content {
   width: 100%;
   height: 100%;
   background: url('/static/images/hp-background.jpg');
   background-size: cover;
 
-    .hp-centered {
-      width: 500px;
-      height: 300px;
-      position: absolute;
-      margin: -150px 0 0 -250px;
-      top: 50%;
-      left: 50%;
-      opacity: 0.4;
-      background-color: white;
-      border-radius: 10px;
-    }
-
-    #hp-menu {
-      padding: 50px 85px;
-      width: 500px;
-      height: 300px;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      margin: -150px 0 0 -250px;
-      margin-bottom: -140px;
-      text-align: center;
-    }
-
-    .form-group {
-      width: 300px;
-    }
+  .hp-centered {
+    width: 500px;
+    height: 300px;
+    position: absolute;
+    margin: -150px 0 0 -250px;
+    top: 50%;
+    left: 50%;
+    opacity: 0.4;
+    background-color: white;
+    border-radius: 10px;
   }
-}
 
-#footer {
-  line-height: 30px;
-  height: 40px;
-  background: black;
-  width: 100%;
-  text-align: right;
-  font-color: white;
-  font-weight: bold;
-}
+  #hp-menu {
+    padding: 50px 85px;
+    width: 500px;
+    height: 300px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -150px 0 0 -250px;
+    margin-bottom: -140px;
+    text-align: center;
+  }
 
-.container-footer {
-  padding: 0 30px;
+  .form-group {
+    width: 300px;
+  }
 }

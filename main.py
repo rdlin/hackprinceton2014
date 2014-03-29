@@ -23,10 +23,10 @@ def home():
 
 @app.route('/room/<room_name>/')
 def room(room_name):
-    return room_name
+    return render_template('room.html', room=room_name)
 
 if __name__ == '__main__':
     if app.debug:
         app.run(debug=True)
     else:
-        socketio.run(app)
+        socketio.run(app, debug=True)

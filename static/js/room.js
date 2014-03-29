@@ -167,13 +167,6 @@ $(document).ready(function() {
     }
   };
 
-  $('.button-').on('click', function() {
-    var room_name = $('.js-room').val();
-    $.get('/room/' + room_name + '/all_players', function(data) {
-      players = data.data;
-    });
-  });
-
   $('.button-start').on('click', function() {
     var room_name = $('.js-roomname').val();
     $.get('/room/' + room_name, function(data) {

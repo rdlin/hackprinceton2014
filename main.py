@@ -3,6 +3,7 @@ from flask import render_template
 from flask import request
 from flask import redirect
 from flask import url_for
+from flask import jsonify
 from pymongo import Connection
 import pdb
 from rdio import Rdio
@@ -135,12 +136,13 @@ def filterLyrics(lyrics):
 
 #Track specific
 
+@app.route("/toptracks")
 def get_top_chart_tracks(count="20"):
     #http://www.rdio.com/developers/docs/web-service/types/track/ for properties types
     top_charts_request = rdio.call("getTopCharts", {"type": "Track", "count": count})
     if (top_charts_request["status"] != "ok"):
         raise Exception("Status for getting top chart returned not ok")
-    return top_charts_request["result"]
+    return jsonify(data=top_charts_request["result"])
 
 def search_for_tracks(search_query, count="10"):
     return search_for_items("Track", search_query, count)

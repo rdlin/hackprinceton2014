@@ -9,6 +9,12 @@
 {% endblock %}
 
 {% block content %}
+  {% if error %}
+    <div class="alert alert-danger alert-error">
+      <a href="#" class="close" data-dismiss="alert">&times;</a>
+      <strong>Error!</strong>{{error}}
+    </div>
+  {% endif %}
   <div class="hp-centered">
   </div>
   <div id="hp-menu">
@@ -19,7 +25,7 @@
                class="form-control"
                id="room"
                name="room"
-               value="thundersnow"
+               value="{{room_name}}"
                placeholder="room name"
                required>
       </div>
@@ -29,7 +35,7 @@
                class="form-control"
                id="username"
                name="username"
-               value="ponyta"
+               value="{{username}}"
                placeholder="username"
                required>
       </div>

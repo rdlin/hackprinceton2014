@@ -4,9 +4,10 @@ var call;
 var getUserMedia;
 var $songs = $('#songs');
 var $albums = $('#albums');
+var socket;
 
 $(document).ready(function() {
-  var socket = io.connect();
+  socket = io.connect();
   player = $('.js-username').val();
   $(window).bind('beforeunload', function() {
     var username = $('.js-username').val(),
@@ -170,7 +171,7 @@ $(document).ready(function() {
 
   $('.button-').on('click', function() {
     var room_name = $('.js-room').val();
-  };
+  });
 
   $('.button-start').on('click', function() {
     var room_name = $('.js-roomname').val();
@@ -202,7 +203,7 @@ $(document).ready(function() {
       players = data.data;
     });
   }
-  getAllPlayers(); 
+  getAllPlayers();
 
   $(".btn-get-top-chart").on('click', function() {
       top_songs();

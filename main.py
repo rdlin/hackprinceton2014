@@ -12,7 +12,8 @@ def home():
     if request.method == 'GET':
         return render_template('index.html')
     else:
-        print 'hello world'
+        # process room and stuff here
+        return 'asdf'
 
 if __name__ == '__main__':
     socketio.run(app)

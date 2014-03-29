@@ -3,16 +3,12 @@ from flask import render_template
 from flask import request
 from flask import redirect
 from flask import url_for
-from flask.ext.socketio import SocketIO, emit
 from pymongo import Connection
 import pdb
 
 app = Flask(__name__)
-app.config.update(
-    SECRET_KEY='yext1234',
-    DEBUG=True
-)
-socketio = SocketIO(app)
+app = Flask(__name__)
+app.config['SECRET_KEY'] = 'yext1234'
 
 # For mongoDb
 connection = Connection()
@@ -46,8 +42,9 @@ def room(room_name, username):
 def leave(room_name, username):
     collection.remove({'room': room_name, 'username':username})
 
+@app.route('/sockets')
+def sock():
+    return render_template('test.html')
+
 if __name__ == '__main__':
-    if app.debug:
-        app.run(debug=True)
-    else:
-        socketio.run(app, debug=True)
+    app.run(debug=True)

@@ -32,9 +32,6 @@
   height: 100%;
   width: 100%; }
   #content #container #browse-songs {
-    position: absolute;
-    top: 10%;
-    left: 50%;
     width: 500px;
     min-height: 300px;
     background: gray; }

@@ -25,19 +25,25 @@
   </div>
 
   <div id="container">
-    <div id="player1" class="players"></div>
-    <div id="player2" class="players"></div>
+    <div id="top">
+      <div id="player1" class="players"></div>
+      <div id="player2" class="players"></div>
 
-    <div id="browse-songs">
-      <input type="text"
-             class="js-search-text"
-             placeholder="Type to search">
-      </input>
-      <button type="button" class="btn btn-primary button-search">Search</button>
-      <div id="songs">
-         <embed src="/static/images/spinner.gif">
+      <div id="browse-songs">
+        <input type="text"
+               class="js-search-text"
+               placeholder="Type to search">
+        </input>
+        <button type="button" class="btn btn-primary button-search">Search</button>
+        <div id="songs">
+           <embed src="/static/images/spinner.gif">
+        </div>
+        <button type="button" class="btn btn-primary button-start">Start</button>
       </div>
-      <button type="button" class="btn btn-primary button-start">Start</button>
+    </div>
+
+    <div id="users">
+
     </div>
   </div>
 {% endblock %}

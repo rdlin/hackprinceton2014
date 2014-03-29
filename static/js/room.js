@@ -90,7 +90,7 @@ $(document).ready(function() {
   (function poll() {
     $.ajax({ url: "/room/" + $('.js-room').val() + '/all_players', success: function(data){
       //Update players
-      players = data;
+      players = data.data;
     }, dataType: "json", complete: poll, timeout: 2000 });
   })();
 

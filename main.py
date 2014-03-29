@@ -4,6 +4,7 @@ from flask import request
 from flask import redirect
 from flask import url_for
 from flask import jsonify
+from flask.ext.socketio import SocketIO, send, emit, join_room, leave_room
 from pymongo import Connection
 import pdb
 from rdio import Rdio
@@ -11,8 +12,8 @@ from musixmatch import track
 import random
 
 app = Flask(__name__)
-app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yext1234'
+socketio = SocketIO(app)
 
 # For mongoDb
 connection = Connection()
@@ -53,10 +54,6 @@ def room(room, username):
 @app.route('/leave/<room>/<username>/', methods=['POST'])
 def leave(room, username):
     collection.remove({'room': room, 'username':username})
-
-@app.route('/sockets')
-def sock():
-    return render_template('test.html')
 
 def renderErrorInTemplate(template, room, username, error):
     return render_template(template, room=room, username=username, error=error);
@@ -235,4 +232,4 @@ def allPlayersInRoom(room_name):
 
 if __name__ == '__main__':
     set_rdio()
-    app.run(debug=True)
+    socketio.run(app)

@@ -5,7 +5,7 @@ var getUserMedia;
 var $songs = $('#songs');
 
 $(document).ready(function() {
-  var player = $('.js-username').val();
+  player = $('.js-username').val();
   $(window).bind('beforeunload', function() {
     var username = $('.js-username').val(),
         room_name = $('.js-room').val();
@@ -13,6 +13,7 @@ $(document).ready(function() {
     return 'Going to this url will log you out of this room.';
   });
 
+  // SONGS
   // By default show the top 20 songs
   var top_songs = function() {
     $.get('/toptracks', function(data) {
@@ -36,31 +37,33 @@ $(document).ready(function() {
   };
   top_songs();
 
-  $('.button-start').on('click', function() {
-    var room_name = $('.js-room').val();
-    $.get('/room/' + room_name, function(data) {
-      if (data.hasOwnProperty('error')) {
-        $('.js-room-error').html(data.error);
-        $('.js-room-error-wrap').attr('style', 'display: display');
-      } else {
-        // You have the names here
-        // Don't forget to change the number in the python function to 3
-        // the minimum number of people needed for a game to start
-        var players = data.data;
-      }
-    });
+  // Constantly Update player list
+  socket.on('player_connected', function(data) {
+    players.push(data.player);
+  });
+
+  // TODO: Check splice, perhaps do this better
+  socket.on('player_disconnected', function(data) {
+    players.splice(players[:-1]);
   });
 
   // TODO: Make unique by room level
+  // Initalize peers
   var peer = new Peer(player, {key: 'p9bjyjl6vzxpf1or'});
   peer.on('open', function(id) {
-    console.log('Peer open with id ' + id);
+    // Enable start button
+    $('#start-button').show();
   });
 
+  // Confirm player ready
   $('#start-button').on('click', function() {
-    $.get('/randomizePlayers', function(data) {
-      initGame(data.p1, data.p2);
-    });
+    socket.emit('player_ready', {room: $('.js-room').val(), player: player});
+    $('#start-button').prop('disabled', true);
+  });
+
+  // Game ready, initialize!
+  socket.on('game_ready', function() {
+    initGame(data.p1, data.p2);
   });
 
   function initGame(p1, p2) {
@@ -134,4 +137,19 @@ $(document).ready(function() {
     });
   }
   getAllPlayers();
+
+  $('.button-start').on('click', function() {
+    var room_name = $('.js-room').val();
+    $.get('/room/' + room_name, function(data) {
+      if (data.hasOwnProperty('error')) {
+        $('.js-room-error').html(data.error);
+        $('.js-room-error-wrap').attr('style', 'display: display');
+      } else {
+        // You have the names here
+        // Don't forget to change the number in the python function to 3
+        // the minimum number of people needed for a game to start
+        var players = data.data;
+      }
+    });
+  });
 });

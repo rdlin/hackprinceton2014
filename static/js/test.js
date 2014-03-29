@@ -11,10 +11,15 @@ $(document).ready(function() {
   });
 
   $('#start-button').on('click', function() {
-    $.get('/randomizePlayers', function(data) {
-      initGame(data.p1, data.p2);
-    });
+    data = findPlayers();
+    initGame(data.p1, data.p2);
   });
+
+  function findPlayers() {
+    $.get('/randomizePlayers', function(data) {
+      return data;
+    });
+  }
 
   function initGame(p1, p2) {
     // p1, p2 call all other players
@@ -38,6 +43,9 @@ $(document).ready(function() {
             window.remoteStream = remoteStream;
           }
         });
+      }, function(err) {
+        //Failed to initalize stream, pick next player
+
       });
     } else if (player === p2) {
       getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;

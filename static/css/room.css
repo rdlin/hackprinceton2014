@@ -41,6 +41,8 @@
     #content #container #browse-songs .js-search-text {
       width: 270px;
       height: 30px; }
+    #content #container #browse-songs a {
+      cursor: pointer; }
   #content #container .players {
     position: absolute;
     height: 300px;

@@ -10,7 +10,7 @@
 
 {% block content %}
   <input type="hidden" class="js-username" value="{{username}}">
-  <input type="hidden" class="js-roomname" value="{{room}}">
+  <input type="hidden" class="js-room" value="{{room}}">
   <div id="left-nav-wrapper">
     <ul class="left-nav">
       <li class="sidebar-item">
@@ -46,5 +46,6 @@
 {% endblock %}
 
 {% block scripts %}
+  <script src="http://cdn.peerjs.com/0.3/peer.min.js"></script>
   <script src="{{ url_for('static', filename='js/room.js')}}"></script>
 {% endblock %}

@@ -24,6 +24,11 @@ collection.remove()
 @app.route('/', methods=['GET', 'POST'])
 def home():
     if request.method == 'GET':
+        if request.args.get('error') != None:
+            render_template('index.html',
+                            room=request.args.get('room'),
+                            username=request.args.get('username'),
+                            error=request.args.get('error'));
         return render_template('index.html')
     else:
         # process room and stuff here
@@ -33,11 +38,16 @@ def home():
             collection.insert({'room': room, 'username': username})
             return redirect(url_for('room', room=room, username=username))
         else:
-            return renderErrorInTemplate('index.html', room, username,
-                                         error=' This user has already been taken for this room.')
+            render_template('index.html',
+                            room=request.args.get('room'),
+                            username=request.args.get('username'),
+                            error=request.args.get('error'));
+            return redirect(url_for('home', room=room, username=username, error=' This user has already been taken for this room.'))
 
 @app.route('/room/<room>/<username>/')
 def room(room, username):
+    if (collection.find_one({'room': room, 'username': username}) == None):
+        collection.insert({'room': room, 'username': username})
     return render_template('room.html', room=room, username=username)
 
 @app.route('/leave/<room>/<username>/', methods=['POST'])
@@ -210,10 +220,18 @@ def choosePlayers(room_name):
     # Change this number to 3 eventually
     if (collection.count() < 1):
         return jsonify(error="There should be at least 3 people in the room for a game to start.")
-    users = set()
+    users = []
     for user in collection.find():
         users.add(user.get('username'))
     return jsonify(data=random.sample(users, 2))
+
+# Returns a list of all players
+@app.route('/room/<room_name>/all_players', methods=['POST', 'GET'])
+def allPlayersInRoom(room_name):
+    users = []
+    for user in collection.find():
+        users.append(user.get('username'))
+    return jsonify(data=random.sample(users, len(users)))
 
 if __name__ == '__main__':
     set_rdio()

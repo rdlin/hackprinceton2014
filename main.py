@@ -173,6 +173,13 @@ def get_new_albums(count="10"):
     if verify_search_results(search_results):
         return search_results["result"]
 
+@app.route("/newalbums/")
+def get_new_albums_jsonified(count="10"):
+    search_results = rdio.call("getNewReleases", {"count": count})
+    if (search_results["status"] != "ok"):
+        return Exception("Status for getting trending albums returned not ok")
+    return jsonify(data=search_results["result"])
+
 def get_tracks_for_album(album):
     track_keys = []
     for track_key in album["trackKeys"]:
@@ -183,6 +190,13 @@ def get_trending_albums(count="10"):
     search_results = rdio.call("getHeavyRotation", {"type": "albums", "count": count})
     if verify_search_results(search_results):
         return search_results["result"]
+
+@app.route("/trendingalbums/")
+def get_trending_albums_jsonified(count="10"):
+    search_results = rdio.call("getHeavyRotation", {"type": "albums", "count": count})
+    if (search_results["status"] != "ok"):
+        return Exception("Status for getting trending albums returned not ok")
+    return jsonify(data=search_results["result"])
 
 #Generic
 

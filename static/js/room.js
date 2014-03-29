@@ -3,6 +3,7 @@ var player;
 var call;
 var getUserMedia;
 var $songs = $('#songs');
+var $albums = $('#albums');
 
 $(document).ready(function() {
   player = $('.js-username').val();
@@ -23,14 +24,14 @@ $(document).ready(function() {
         if (res.length !== 0) {
           res += "<br>";
         }
-        res += '<a value="' + $element.embedUrl + '">' + $element.name + ' &mdash; ' + $element.artist + '</a>';
-      }
-      $songs.html(res);
+        res += '<button style="width:500px" value="' + $element.embedUrl + '">' + $element.name + ' &mdash; ' + $element.artist + '</button>';
+    }
+    $songs.html(res);
 
-      $songs.find('a').on('click', function() {
-        $songs.html('<embed src="/static/images/spinner.gif"> ');
-        var url = $(this).attr('value');
-        var res = '<embed src="' + url + '">';
+    $songs.find('button').on('click', function() {
+      $songs.html('<embed src="/static/images/spinner.gif"> ');
+      var url = $(this).attr('value');
+      var res = '<embed src="' + url + '">';
         $songs.html(res);
       });
     });
@@ -117,29 +118,61 @@ $(document).ready(function() {
           }
         });
       });
-    } else {
-      // Answer the call with no media (judges)
-      peer.on('call', function(call) {
-        call.answer();
-        if (call.peer === p1) {
-          $('#p1-vid').prop('src', URL.createObjectURL(stream));
-        } else {
-          $('#p2-vid').prop('src', URL.createObjectURL(stream));
-        }
-      });
     }
-  }
+  };
 
-  var getAllPlayers = function() {
-    var room_name = $('.js-room').val();
-    $.get('/room/' + room_name + '/all_players', function(data) {
-      players = data.data;
+  // By default show the top 20 songs
+  var trending_albums = function() {
+    $.get('/trendingalbums', function(data) {
+      var res = "";
+      for (var i = 0; i < Object.keys(data.data).length; i++) {
+        var $element = data.data[i];
+        if (res.length !== 0) {
+          res += "<br>";
+        }
+        res += '<button style="width:500px" value="' + 'www.example.com' + '">' + $element.name + ' &mdash; ' + $element.artist + '</button>';
+      }
+      $albums.html(res);
+
+      $albums.find('button').on('click', function() {
+        $albums.html('<embed src="/static/images/spinner.gif"> ');
+        var url = $(this).attr('value');
+        var res = '<embed src="' + url + '">';
+        $albums.html(res);
+      });
+    });
+  };
+  trending_albums();
+
+  // By default show the top 20 songs
+  var new_albums = function() {
+    $.get('/newalbums', function(data) {
+      var res = "";
+      for (var i = 0; i < Object.keys(data.data).length; i++) {
+        var $element = data.data[i];
+        if (res.length !== 0) {
+          res += "<br>";
+        }
+        res += '<button style="width:500px" value="' + 'www.example.com' + '">' + $element.name + ' &mdash; ' + $element.artist + '</button>';
+      }
+      $albums.html(res);
+
+      $albums.find('button').on('click', function() {
+        $albums.html('<embed src="/static/images/spinner.gif"> ');
+        var url = $(this).attr('value');
+        var res = '<embed src="' + url + '">';
+        $albums.html(res);
+      });
     });
   }
-  getAllPlayers();
+  new_albums();
+
+  $('.button-').on('click', function() {
+    var room_name = $('.js-room').val();
+  };
 
   $('.button-start').on('click', function() {
-    var room_name = $('.js-room').val();
+    var room_name = $('.js-roomname').val();
     $.get('/room/' + room_name, function(data) {
       if (data.hasOwnProperty('error')) {
         $('.js-room-error').html(data.error);
@@ -151,5 +184,51 @@ $(document).ready(function() {
         var players = data.data;
       }
     });
+  });
+  // Answer the call with no media (judges)
+  peer.on('call', function(call) {
+    call.answer();
+    if (call.peer === p1) {
+      $('#p1-vid').prop('src', URL.createObjectURL(stream));
+    } else {
+      $('#p2-vid').prop('src', URL.createObjectURL(stream));
+    }
+  });
+
+  var getAllPlayers = function() {
+    var room_name = $('.js-room').val();
+    $.get('/room/' + room_name + '/all_players', function(data) {
+      players = data.data;
+    });
+  }
+  getAllPlayers(); 
+
+  $(".btn-get-top-chart").on('click', function() {
+      top_songs();
+      $("#songs").show();
+  });
+
+  $(".btn-get-trending-albums").on('click', function() {
+      trending_albums();
+      $("#albums").show();
+  });
+
+  $(".btn-get-new-albums").on('click', function() {
+      new_albums();
+      $("#albums").show();
+  });
+
+  $(".btn-option").on('click', function() {
+      $(".btn-option").hide();
+      $(".btn-dropdown").show();
+      $("#option-list").hide();
+  });
+
+  $(".btn-dropdown").on('click', function() {
+      $(".btn-option").show();
+      $("#option-list").show();
+      $(".btn-dropdown").hide();
+      $("#songs").hide();
+      $("#albums").hide();
   });
 });

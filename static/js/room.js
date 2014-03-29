@@ -6,6 +6,7 @@ var $songs = $('#songs');
 var $albums = $('#albums');
 
 $(document).ready(function() {
+  var socket = io.connect();
   player = $('.js-username').val();
   $(window).bind('beforeunload', function() {
     var username = $('.js-username').val(),

@@ -250,6 +250,7 @@ def readyPlayer(room, username):
 # Once two players have been chosen, this just returns a map of those two players
 @app.route('/room/<room>')
 def getPairPlayers(room):
+    return jsonify({'dummydata': 'chun is a b****'})
     # pdb.set_trace()
     # return jsonify([data=chosen.find_one({'room1': room})])
     

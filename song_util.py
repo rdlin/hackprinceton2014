@@ -54,6 +54,7 @@ def get_lyrics_for_track_name(name='', artist='', lyrics=''):
 
 def filterLyrics(lyrics):
     lyrics = lyrics.replace("******* This Lyrics is NOT for Commercial use *******", "")
+    lyrics = lyrics.replace("fuck", "f*ck")
     return lyrics
 
 #Rdio api calls and stuff

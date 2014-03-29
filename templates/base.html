@@ -8,8 +8,20 @@
     <title>{% block title %}K-JAM{% endblock %}</title>
   </head>
   <body>
-    <div id="content">{% block content %}Default content{% endblock %}</div>
-    <div id="footer">{% block footer %}Made with love by yexters{% endblock %}</div>
+    <!-- wrap all body content in the wrap so that it pushes the footer down-->
+    <div id="wrap">
+      <div id="content">{% block content %}Default content{% endblock %}</div>
+    </div>
+      
+    <div id="footer">
+      {% block footer %}
+      <div class="container-footer">
+        <p class="text-muted credit">
+          Made by the <a href="/aboutus">Yexters</a>&trade; 2014
+        </p>
+      </div>
+      {% endblock %}
+    </div>
 
     <script src="{{ url_for('static', filename='js/jquery-2.1.0.js') }}"></script>
     <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>

@@ -1,3 +1,8 @@
+html,
+body {
+  height: 100%;
+}
+
 #content {
   padding: 20px; }
   #content #hp-background {
@@ -15,11 +20,30 @@
     margin-bottom: -140px;
     text-align: center; }
   #content .form-group {
-    width: 300px; }
+    width: 300px;
+}
+
+#wrap {
+  min-height: 100%;
+  height: auto;
+  margin: 0 auto -60px;
+  padding: 0 0 60px;
+}
 
 #footer {
-  width: 100%;
+  height: 60px;
   background: black;
+  width: 100%;
   text-align: right;
   font-color: white;
-  font-weight: bold; }
+  font-weight: bold;
+}
+
+.container-footer {
+  width: auto;
+  padding: 0 30px;
+}
+
+.container-footer .credit {
+  margin: 20px 0;
+}

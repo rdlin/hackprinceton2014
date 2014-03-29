@@ -42,24 +42,6 @@
     height: 100%;
     width: 100%;
 
-    #browse-songs {
-      // position: absolute;
-      // top: 10%;
-      // left: 50%;
-      width: 500px;
-      min-height: 300px;
-      background: gray;
-
-      .js-search-text {
-        width: 100%;
-        height: 33px;
-      }
-
-      a {
-        cursor: pointer;
-      }
-    }
-
     #top {
       #search-widget {
         width: 500px;
@@ -110,25 +92,6 @@
           display: none;
         }
       }
-    }
-
-    .players {
-      position: absolute;
-      height: 300px;
-      width: 300px;
-      min-height: 300px;
-      min-width: 300px;
-      background: white;
-    }
-
-    #player1 {
-      left: 15%;
-      top: 20%;
-    }
-
-    #player2 {
-      right: 15%;
-      top: 20%;
     }
   }
 }

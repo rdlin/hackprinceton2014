@@ -1,8 +1,11 @@
 from flask import Flask
 from flask import render_template
 from flask import request
+from flask.ext.socketio import SocketIO, emit
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'yext1234'
+socketio = SocketIO(app)
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
@@ -12,4 +15,4 @@ def home():
         print 'hello world'
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    socketio.run(app)

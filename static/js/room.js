@@ -40,6 +40,52 @@ $(document).ready(function() {
   };
   top_songs();
 
+    // By default show the top 20 songs
+  var trending_albums = function() {
+    $.get('/trendingalbums', function(data) {
+      var res = "";
+      for (var i = 0; i < Object.keys(data.data).length; i++) {
+        var $element = data.data[i];
+        if (res.length !== 0) {
+          res += "<br>";
+        }
+        res += '<button style="width:500px" value="' + 'www.example.com' + '">' + $element.name + ' &mdash; ' + $element.artist + '</button>';
+      }
+      $albums.html(res);
+
+      $albums.find('button').on('click', function() {
+        $albums.html('<embed src="/static/images/spinner.gif"> ');
+        var url = $(this).attr('value');
+        var res = '<embed src="' + url + '">';
+        $albums.html(res);
+      });
+    });
+  };
+  trending_albums();
+
+  // By default show the top 20 songs
+  var new_albums = function() {
+    $.get('/newalbums', function(data) {
+      var res = "";
+      for (var i = 0; i < Object.keys(data.data).length; i++) {
+        var $element = data.data[i];
+        if (res.length !== 0) {
+          res += "<br>";
+        }
+        res += '<button style="width:500px" value="' + 'www.example.com' + '">' + $element.name + ' &mdash; ' + $element.artist + '</button>';
+      }
+      $albums.html(res);
+
+      $albums.find('button').on('click', function() {
+        $albums.html('<embed src="/static/images/spinner.gif"> ');
+        var url = $(this).attr('value');
+        var res = '<embed src="' + url + '">';
+        $albums.html(res);
+      });
+    });
+  }
+  new_albums();
+
   // Constantly Update player list
   socket.on('player_connected', function(data) {
     players.push(data.player);
@@ -122,52 +168,6 @@ $(document).ready(function() {
       });
     }
   };
-
-  // By default show the top 20 songs
-  var trending_albums = function() {
-    $.get('/trendingalbums', function(data) {
-      var res = "";
-      for (var i = 0; i < Object.keys(data.data).length; i++) {
-        var $element = data.data[i];
-        if (res.length !== 0) {
-          res += "<br>";
-        }
-        res += '<button style="width:500px" value="' + 'www.example.com' + '">' + $element.name + ' &mdash; ' + $element.artist + '</button>';
-      }
-      $albums.html(res);
-
-      $albums.find('button').on('click', function() {
-        $albums.html('<embed src="/static/images/spinner.gif"> ');
-        var url = $(this).attr('value');
-        var res = '<embed src="' + url + '">';
-        $albums.html(res);
-      });
-    });
-  };
-  trending_albums();
-
-  // By default show the top 20 songs
-  var new_albums = function() {
-    $.get('/newalbums', function(data) {
-      var res = "";
-      for (var i = 0; i < Object.keys(data.data).length; i++) {
-        var $element = data.data[i];
-        if (res.length !== 0) {
-          res += "<br>";
-        }
-        res += '<button style="width:500px" value="' + 'www.example.com' + '">' + $element.name + ' &mdash; ' + $element.artist + '</button>';
-      }
-      $albums.html(res);
-
-      $albums.find('button').on('click', function() {
-        $albums.html('<embed src="/static/images/spinner.gif"> ');
-        var url = $(this).attr('value');
-        var res = '<embed src="' + url + '">';
-        $albums.html(res);
-      });
-    });
-  }
-  new_albums();
 
   $('.button-').on('click', function() {
     var room_name = $('.js-room').val();

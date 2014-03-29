@@ -3,9 +3,12 @@ from musixmatch import track
 import pdb
 from rdio import Rdio
 
+#TODO(rdlin): add error checking EVERYWHERE
+
 app = Flask(__name__)
 rdio=None
 
+#Global rdio with authentication
 def set_rdio():
     global rdio 
     rdio = Rdio(("ucvxaju3gq3natuvp9w6uxrv", "vwnQkPkDhM"))
@@ -17,18 +20,13 @@ def get_names_string():
     set_rdio()
     return "Hello World"
 
-@app.route("/search/<track_name>/<item>")
+@app.route("/search/<item>/<track_name>")
 def get_item_for_track_name_search(track_name=None, item=None):
-    #TODO(rdlin): add error checking on item, track name
-    return "<br>".join([track[item] for track in search_for_tracks(track_name)])
+    return "<br>".join(get_tracks_item_list("name", search_for_tracks(track_name)))
 
-@app.route("/<item>")
+@app.route("/topchart/<item>")
 def get_item_string_for_top_chart_tracks(item=None):
-    top_chart_tracks = get_top_chart_tracks()
-    if(item not in top_chart_tracks[0].keys()):
-        raise Exception("Invalid item for track." + 
-            "consult http://www.rdio.com/developers/docs/web-service/types/track/ for proper types")
-    return "<br>".join(get_top_chart_tracks_items(item, top_chart_tracks))
+    return "<br>".join(get_tracks_item_list("name", get_top_chart_tracks()))
 
 #getting lyrics and a bunch of other information for a track search
 @app.route("/search/<track_name>/info")
@@ -77,6 +75,8 @@ def filterLyrics(lyrics):
 
 #Rdio api calls and stuff
 
+#Track specific
+
 def get_top_chart_tracks(count="20"):
     #http://www.rdio.com/developers/docs/web-service/types/track/ for properties types
     top_charts_request = rdio.call("getTopCharts", {"type": "Track", "count": count})
@@ -87,17 +87,6 @@ def get_top_chart_tracks(count="20"):
 def search_for_tracks(search_query, count="10"):
     return search_for_items("Track", search_query, count)
 
-def search_for_albums(search_query, count="10"):
-    return search_for_items("Album", search_query, count)
-
-def search_for_items(item, search_query, count="10"):
-    search_results = rdio.call("search", {"query": search_query, "types": item, "count": count})
-    if (search_results["status"] != "ok"):
-        raise Exception("Status for search returned not ok")
-    elif (len(search_results) == 0):
-        raise Exception("Search result return no results")
-    return search_results["result"]["results"]
-
 def search_for_tracks_by_artist(search_query, count="10"):
     search_results = rdio.call("getTracksForArtist", {"artist": search_query, "count": count})
     if (search_results["status"] != "ok"):
@@ -105,6 +94,17 @@ def search_for_tracks_by_artist(search_query, count="10"):
     elif (len(search_results) == 0):
         raise Exception("Search result return no results")
     return search_results["result"]["results"]
+
+def get_tracks_item_list(item, tracklist):
+    return [track[item] for track in tracklist]
+
+def get_item_for_track(item, track):
+    return track[item]
+
+#Album specific
+
+def search_for_albums(search_query, count="10"):
+    return search_for_items("Album", search_query, count)
 
 def get_new_albums(count="10"):
     search_results = rdio.call("getNewReleases", {"count": count})
@@ -120,20 +120,23 @@ def get_tracks_for_album(album):
         track_keys.append(track_key)
     return get_objects_for_keys(track_keys)
 
+#Generic
+
+def search_for_items(item, search_query, count="10"):
+    search_results = rdio.call("search", {"query": search_query, "types": item, "count": count})
+    if (search_results["status"] != "ok"):
+        raise Exception("Status for search returned not ok")
+    elif (len(search_results) == 0):
+        raise Exception("Search result return no results")
+    return search_results["result"]["results"]
+
 def get_objects_for_keys(keys):
     rdio_object_request = rdio.call("get", {"keys": ",".join(keys)})
     if (rdio_object_request["status"] != "ok"):
         raise Exception("Status for search returned not ok")
     return [rdio_object_request["result"][key] for key in keys]
 
-def get_top_chart_tracks_item(item, index, top_chart_tracks):
-    return top_chart_tracks[index][item]
-
-def get_top_chart_tracks_items(item, top_chart_tracks):
-    return [track[item] for track in top_chart_tracks]
-
-def get_item_for_search_for_tracks(track_name="", item=""):
-    return [track[item] for track in search_for_tracks(track_name)]
+#python stuff
 
 if __name__ == "__main__":
     app.run()

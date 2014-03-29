@@ -51,10 +51,21 @@ def get_info_for_track_name_by_artist_search(artist_name=None):
     return displayString
 
 #getting and testing album methods
-@app.route("/albums")
+@app.route("/albums/new")
 def get_new_albums_this_week():
     displayString = ""
     for album in get_new_albums():
+        displayString+="Name: " + album["name"]+"<br>"
+        displayString+="Artist: " + album["artist"]+"<br>"
+        displayString+="Tracks: " + " , ".join([track["name"] for track in get_tracks_for_album(album)])
+        displayString+="<br><br>"
+    return displayString
+
+#getting and testing album methods
+@app.route("/albums/trending")
+def get_trending_albums_this_week():
+    displayString = ""
+    for album in get_trending_albums():
         displayString+="Name: " + album["name"]+"<br>"
         displayString+="Artist: " + album["artist"]+"<br>"
         displayString+="Tracks: " + " , ".join([track["name"] for track in get_tracks_for_album(album)])
@@ -69,8 +80,11 @@ def get_lyrics_for_track_name(name='', artist='', lyrics=''):
     return result
 
 def filterLyrics(lyrics):
-    lyrics = lyrics.replace("******* This Lyrics is NOT for Commercial use *******", "")
-    lyrics = lyrics.replace("fuck", "f*ck")
+    bad_word_dict = {
+        "******* This Lyrics is NOT for Commercial use *******": "",
+        "fuck": "f*ck"}
+    for bad_word in bad_word_dict.keys():
+        lyrics = lyrics.replace(bad_word, bad_word_dict[bad_word])
     return lyrics
 
 #Rdio api calls and stuff
@@ -108,17 +122,19 @@ def search_for_albums(search_query, count="10"):
 
 def get_new_albums(count="10"):
     search_results = rdio.call("getNewReleases", {"count": count})
-    if (search_results["status"] != "ok"):
-        raise Exception("Status for search returned not ok")
-    elif (len(search_results) == 0):
-        raise Exception("Search result return no results")
-    return search_results["result"]
+    if verify_search_results(search_results):
+        return search_results["result"]
 
 def get_tracks_for_album(album):
     track_keys = []
     for track_key in album["trackKeys"]:
         track_keys.append(track_key)
     return get_objects_for_keys(track_keys)
+
+def get_trending_albums(count="10"):
+    search_results = rdio.call("getHeavyRotation", {"type": "albums", "count": count})
+    if verify_search_results(search_results):
+        return search_results["result"]
 
 #Generic
 
@@ -135,6 +151,13 @@ def get_objects_for_keys(keys):
     if (rdio_object_request["status"] != "ok"):
         raise Exception("Status for search returned not ok")
     return [rdio_object_request["result"][key] for key in keys]
+
+def verify_search_results(search_results):
+    if (search_results["status"] != "ok"):
+        raise Exception("Status for search returned not ok")
+    elif (len(search_results) == 0):
+        raise Exception("Search result return no results")
+    return True
 
 #python stuff
 

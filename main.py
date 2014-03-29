@@ -29,13 +29,7 @@ ready.remove()
 @app.route('/', methods=['GET', 'POST'])
 def home():
     if request.method == 'GET':
-        if request.args.get('error') != None:
-            return render_template('index.html',
-                            room=request.args.get('room'),
-                            username=request.args.get('username'),
-                            error=request.args.get('error'));
-        else:
-            return render_template('index.html')
+        return render_template('index.html')
     else:
         # process room and stuff here
         username = request.form['username']
@@ -48,8 +42,8 @@ def room(room, username):
         collection.insert({'room': room, 'username': username})
         return render_template('room.html', room=room, username=username)
     else:
-        return redirect(url_for('home', room=room, username=username,
-            error=' This user has already been taken for this room.'))
+        return renderErrorInTemplate('index.html', room, username,
+                                         error=' This user has already been taken for this room.')
 
 @app.route('/leave/<room>/<username>/', methods=['POST'])
 def leave(room, username):
@@ -238,8 +232,11 @@ def initPairPlayers(room_name):
     selected = random.sample(users, 2)
     # Remove the next line if you don't want calling initPairPlayers to delete the old pair
     # from the database
-    chosen.remove({'room': room_name})
-    chosen.insert({'room': room_name, 'username': selected})
+    chosen.remove({'room1': room_name})
+    chosen.remove({'room2': room_name})
+    chosen.insert({'room1': room_name, 'username': selected.get(0)})
+    chosen.insert({'room2': room_name, 'username': selected.get(1)})
+    
     return jsonify(selected)
 
 # If a player is ready to play the game
@@ -253,18 +250,30 @@ def readyPlayer(room, username):
 # Once two players have been chosen, this just returns a map of those two players
 @app.route('/room/<room>')
 def getPairPlayers(room):
-    return jsonify(data=chosen.find_one({'room': room}))
-
+    # pdb.set_trace()
+    # return jsonify([data=chosen.find_one({'room1': room})])
+    
 # Gets one player and returns the a pair, the person the player we are removing was previously mapped
 # and one new person
 # error out if no more valid players
 @app.route('/room/<room>/<username>/invalid')
 def resetPlayers(room, username):
     valid.remove({'room': room, 'username': username})
-    # ge the other user
-    user = chosen.find_one({'room': room, 'username': username})
-    pdb.set_trace()
-    if (valid.count() < 2):
+    user = chosen.find_one({'room': room})
+    chosen.remove({'room': room})
+
+    users = []
+    for user in valid.find():
+        if user.get('username') != user:
+            users.append(user.get('username'))
+    if len(users) <= 2:
+        return jsonify(error="There should be at least 3 people who can/want to play for a game to start.")
+
+    # pdb.set_trace()
+    random.choice(users)
+                   
+    # this has not been tested at all
+    if (valid.find({'room': room}).count() < 2):
         return jsonify(error="There should be at least 3 people who can/want to play for a game to start.")
 
 

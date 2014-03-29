@@ -16,7 +16,8 @@
       top: 50%;
       left: 50%;
       opacity: 0.4;
-      background-color: white; }
+      background-color: white;
+      border-radius: 10px; }
     #wrap #content #hp-menu {
       padding: 50px 85px;
       width: 500px;

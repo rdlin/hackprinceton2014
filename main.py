@@ -21,7 +21,7 @@ def home():
         room = request.form['room']
         return redirect(url_for('room', room_name=room))
 
-@app.route('/room/<room_name>')
+@app.route('/room/<room_name>/')
 def room(room_name):
     return room_name
 

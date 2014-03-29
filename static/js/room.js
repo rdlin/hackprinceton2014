@@ -87,14 +87,10 @@ $(document).ready(function() {
   new_albums();
 
   // Constantly Update player list
-  socket.on('player_connected', function(data) {
-    players.push(data.player);
-  });
-
-  // TODO: Check splice, perhaps do this better
-  //socket.on('player_disconnected', function(data) {
-  //  players.splice(players[:-1]);
-  //});
+  $.ajax({ url: "/room/" + $('.js-room').val() + '/all_players', success: function(data){
+    //Update players
+    players = data;
+  }, dataType: "json", complete: poll, timeout: 2000 });
 
   // TODO: Make unique by room level
   // Initalize peers

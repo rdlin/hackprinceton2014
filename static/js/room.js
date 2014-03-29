@@ -173,7 +173,6 @@ $(document).ready(function() {
       players = data.data;
     });
   });
-  getAllPlayers();
 
   $('.button-start').on('click', function() {
     var room_name = $('.js-roomname').val();

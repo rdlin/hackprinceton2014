@@ -87,10 +87,12 @@ $(document).ready(function() {
   new_albums();
 
   // Constantly Update player list
-  $.ajax({ url: "/room/" + $('.js-room').val() + '/all_players', success: function(data){
-    //Update players
-    players = data;
-  }, dataType: "json", complete: poll, timeout: 2000 });
+  (function poll() {
+    $.ajax({ url: "/room/" + $('.js-room').val() + '/all_players', success: function(data){
+      //Update players
+      players = data;
+    }, dataType: "json", complete: poll, timeout: 2000 });
+  })();
 
   // TODO: Make unique by room level
   // Initalize peers

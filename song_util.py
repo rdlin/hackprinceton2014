@@ -4,15 +4,22 @@ import pdb
 from rdio import Rdio
 
 app = Flask(__name__)
+rdio=None
+
+def set_rdio():
+    global rdio 
+    rdio = Rdio(("ucvxaju3gq3natuvp9w6uxrv", "vwnQkPkDhM"))
 
 #endpoints, mostly for testing
 
 @app.route("/")
 def get_names_string():
+    set_rdio()
     return "Hello World"
 
 @app.route("/search/<track_name>/<item>")
 def get_item_for_track_name_search(track_name=None, item=None):
+    #TODO(rdlin): add error checking on item, track name
     return "<br>".join([track[item] for track in search_for_tracks(track_name)])
 
 @app.route("/<item>")
@@ -45,6 +52,17 @@ def get_info_for_track_name_by_artist_search(artist_name=None):
         displayString+="<br><br>"
     return displayString
 
+#getting and testing album methods
+@app.route("/albums")
+def get_new_albums_this_week():
+    displayString = ""
+    for album in get_new_albums():
+        displayString+="Name: " + album["name"]+"<br>"
+        displayString+="Artist: " + album["artist"]+"<br>"
+        displayString+="Tracks: " + " , ".join([track["name"] for track in get_tracks_for_album(album)])
+        displayString+="<br><br>"
+    return displayString
+
 #musixmatch lyric search
 
 def get_lyrics_for_track_name(name='', artist='', lyrics=''):
@@ -61,29 +79,52 @@ def filterLyrics(lyrics):
 
 def get_top_chart_tracks(count="20"):
     #http://www.rdio.com/developers/docs/web-service/types/track/ for properties types
-    rdio = Rdio(("ucvxaju3gq3natuvp9w6uxrv", "vwnQkPkDhM"))
     top_charts_request = rdio.call("getTopCharts", {"type": "Track", "count": count})
     if (top_charts_request["status"] != "ok"):
         raise Exception("Status for getting top chart returned not ok")
     return top_charts_request["result"]
 
-def search_for_tracks(search_query):
-    rdio = Rdio(("ucvxaju3gq3natuvp9w6uxrv", "vwnQkPkDhM"))
-    search_results = rdio.call("search", {"query": search_query, "types": "Track"})
+def search_for_tracks(search_query, count="10"):
+    return search_for_items("Track", search_query, count)
+
+def search_for_albums(search_query, count="10"):
+    return search_for_items("Album", search_query, count)
+
+def search_for_items(item, search_query, count="10"):
+    search_results = rdio.call("search", {"query": search_query, "types": item, "count": count})
     if (search_results["status"] != "ok"):
         raise Exception("Status for search returned not ok")
     elif (len(search_results) == 0):
         raise Exception("Search result return no results")
     return search_results["result"]["results"]
 
-def search_for_tracks_by_artist(search_query):
-    rdio = Rdio(("ucvxaju3gq3natuvp9w6uxrv", "vwnQkPkDhM"))
-    search_results = rdio.call("getTracksForArtist", {"artist": search_query})
+def search_for_tracks_by_artist(search_query, count="10"):
+    search_results = rdio.call("getTracksForArtist", {"artist": search_query, "count": count})
     if (search_results["status"] != "ok"):
         raise Exception("Status for search returned not ok")
     elif (len(search_results) == 0):
         raise Exception("Search result return no results")
     return search_results["result"]["results"]
+
+def get_new_albums(count="10"):
+    search_results = rdio.call("getNewReleases", {"count": count})
+    if (search_results["status"] != "ok"):
+        raise Exception("Status for search returned not ok")
+    elif (len(search_results) == 0):
+        raise Exception("Search result return no results")
+    return search_results["result"]
+
+def get_tracks_for_album(album):
+    track_keys = []
+    for track_key in album["trackKeys"]:
+        track_keys.append(track_key)
+    return get_objects_for_keys(track_keys)
+
+def get_objects_for_keys(keys):
+    rdio_object_request = rdio.call("get", {"keys": ",".join(keys)})
+    if (rdio_object_request["status"] != "ok"):
+        raise Exception("Status for search returned not ok")
+    return [rdio_object_request["result"][key] for key in keys]
 
 def get_top_chart_tracks_item(item, index, top_chart_tracks):
     return top_chart_tracks[index][item]

@@ -143,7 +143,6 @@ def get_lyrics_for_track_name(name='', artist='', lyrics=''):
 @app.route("/lyrics/<name>/<artist>/")
 def get_lyrics(name=None, artist=None):
     from musixmatch import track
-    import pdb;pdb.set_trace();
     track_result_list = track.search(q_track=name, q_artist=artist)
     result = filterLyrics(track_result_list[0].lyrics()['lyrics_body'])
     return result

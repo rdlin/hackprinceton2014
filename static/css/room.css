@@ -1,36 +1,35 @@
-#content #container {
-  height: 100%;
-  width: 100%; }
-  #content #container #top {
-    text-align: center; }
-    #content #container #top #search-widget {
-      margin-top: 10px;
-      display: inline-block;
-      width: 500px; }
-      #content #container #top #search-widget #options-list #search-bar {
-        position: relative; }
-        #content #container #top #search-widget #options-list #search-bar .input-search {
-          width: 100%;
-          display: inline-block; }
-        #content #container #top #search-widget #options-list #search-bar .button-search {
-          position: absolute;
-          top: 0;
-          right: 0;
-          display: inline-block; }
-      #content #container #top #search-widget #options-list .selected-option {
-        color: black; }
-      #content #container #top #search-widget #options-list .btn-option {
-        display: block;
+#top {
+  height: 600px;
+  width: 100%;
+  text-align: center; }
+  #top #search-widget {
+    margin-top: 10px;
+    display: inline-block;
+    width: 500px; }
+    #top #search-widget #options-list #search-bar {
+      position: relative; }
+      #top #search-widget #options-list #search-bar .input-search {
         width: 100%;
-        border-radius: 0; }
-        #content #container #top #search-widget #options-list .btn-option span {
-          float: right; }
-      #content #container #top #search-widget #options-list #new-albumns {
-        border-radius-bottom: 5px; }
-      #content #container #top #search-widget #results .result {
-        width: 100%; }
-      #content #container #top #search-widget #ajax-spinner {
-        margin: 40px 0; }
+        display: inline-block; }
+      #top #search-widget #options-list #search-bar .button-search {
+        position: absolute;
+        top: 0;
+        right: 0;
+        display: inline-block; }
+    #top #search-widget #options-list .selected-option {
+      color: black; }
+    #top #search-widget #options-list .btn-option {
+      display: block;
+      width: 100%;
+      border-radius: 0; }
+      #top #search-widget #options-list .btn-option span {
+        float: right; }
+    #top #search-widget #options-list #new-albumns {
+      border-radius-bottom: 5px; }
+    #top #search-widget #results .result {
+      width: 100%; }
+    #top #search-widget #ajax-spinner {
+      margin: 40px 0; }
 
 .ui-autocomplete-loading {
   background: white url("images/ui-anim_basic_16x16.gif") right center no-repeat; }

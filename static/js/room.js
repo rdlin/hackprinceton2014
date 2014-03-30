@@ -6,6 +6,7 @@ var $results = $('#results');
 var $selected = $('#selected');
 var curSelected;
 var socket;
+var playerSelected = false;
 
 $(document).ready(function() {
   socket = io.connect();
@@ -216,6 +217,21 @@ $(document).ready(function() {
     }, dataType: "json", complete: poll, timeout: 2000 });
   })();
 
+  (function poll1() {
+    if (!playerSelected) {
+      $.ajax({ url: '/room/' + room_name + '/get_pair', success: function(data){
+        debugger;
+        if (data.length == 0) {
+          var i = 0;
+          // To nothing
+        } else {
+          initGame(data.p1, data.p2);
+        }
+        debugger;
+      }, dataType: "json", complete: poll1, timeout: 2000 });
+    }
+  })();
+
   // TODO: Make unique by room level
   // Initalize peers
   var peer = new Peer(player, {key: 'p9bjyjl6vzxpf1or'});
@@ -240,9 +256,9 @@ $(document).ready(function() {
   });
 
   function initGame(p1, p2) {
-    debugger;
     // p1, p2 call all other players
     if (player === p1) {
+      playerSelected = true;
       navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 
       // Call all other players with active media stream
@@ -264,6 +280,7 @@ $(document).ready(function() {
         });
       });
     } else if (player === p2) {
+      playerSelected = true;
       navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 
       navigator.getUserMedia({video: true, audio: true}, function(stream) {

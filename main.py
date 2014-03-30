@@ -301,10 +301,12 @@ def readyPlayer(data):
 # Once two players have been chosen, this just returns a map of those two players
 @app.route('/room/<room>/get_pair')
 def getPairPlayers(room):
-    pdb.set_trace()
-    return jsonify({'dummydata': 'chun is a b****'})
-    # pdb.set_trace()
-    # return jsonify([data=chosen.find_one({'room1': room})])
+    time.sleep(0.3)
+    p1 = chosen.find_one({'room1': room})
+    p2 = chosen.find_one({'room2': room})
+    if p1 == None:
+        return ""
+    return jsonify({'p1':p1.get('username'), 'p2':p2.get('username')})
 
 # Gets one player and returns the a pair, the person the player we are removing was previously mapped
 # and one new person

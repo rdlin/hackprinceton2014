@@ -10,6 +10,7 @@ import pdb
 from rdio import Rdio
 from musixmatch import track
 import random
+import time
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yext1234'
@@ -245,12 +246,21 @@ def initPairPlayers(room_name):
     
     return jsonify(selected)
 
+# TESTED DONE
+counter = 0
 # If a player is ready to play the game
 # doesn't return anything
-@app.route('/room/<room>/<username>/ready')
-def readyPlayer(room, username):
-    ready.insert({'room': room, 'username': username})
-    if ready.find({'room': room}).count() >= 3:
+@socketio.on('readyPlayer')
+def readyPlayer(data):
+    global counter
+    room, username = data.get('room'), data.get('username');
+    ready.insert({'room': room, 'data':{'username': username, 'counter':counter}})
+    counter += 1
+    number = 0;
+
+    for user in ready.find({'room': room}):
+        number += 1
+    if number >= 3:
         emit('game_ready');
 
 # Once two players have been chosen, this just returns a map of those two players
@@ -284,13 +294,14 @@ def resetPlayers(room, username):
         return jsonify(error="There should be at least 3 people who can/want to play for a game to start.")
 
 
+# TESTED DONE
 # Returns a list of all players
 @app.route('/room/<room_name>/all_players', methods=['POST', 'GET'])
 def allPlayersInRoom(room_name):
+    time.sleep(0.3)
     users = []
     for user in collection.find():
         users.append(user.get('username'))
-    # return jsonify(data=random.sample(users, len(users)))
     return jsonify(data=users)
 
 if __name__ == '__main__':

@@ -142,15 +142,18 @@ $(document).ready(function() {
     $('#start-button').show();
   });
 
+  // TESTED DONE
   // Confirm player ready
-  $('#start-button').on('click', function() {
-    socket.emit('player_ready', {room: $('.js-room').val(), player: player});
-    $('#start-button').prop('disabled', true);
+  $('.button-search').on('click', function() {
+    socket.emit('readyPlayer', {room: $('.js-room').val(), username: player});
+    $('.button-search').prop('disabled', true);
   });
 
   // Game ready, initialize!
   socket.on('game_ready', function() {
-    initGame(data.p1, data.p2);
+    // TODO NEXT
+    //initGame(0, 1);
+    var i = 0;
   });
 
   function initGame(p1, p2) {
@@ -230,15 +233,7 @@ $(document).ready(function() {
       $('#p2-vid').prop('src', URL.createObjectURL(stream));
     }
   });
-
-  var getAllPlayers = function() {
-    var room_name = $('.js-room').val();
-    $.get('/room/' + room_name + '/all_players', function(data) {
-      players = data.data;
-    });
-  }
-  getAllPlayers();
-
+  
   $(".btn-get-top-chart").on('click', function() {
       top_songs();
       $("#songs").show();

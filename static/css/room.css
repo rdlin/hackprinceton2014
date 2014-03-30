@@ -36,7 +36,6 @@
       display: inline-block;
       width: 500px; }
       #content #container #top #search-widget #options-list #search-bar {
-        border-radius-bottom: 0;
         position: relative; }
         #content #container #top #search-widget #options-list #search-bar .input-search {
           width: 100%;
@@ -46,6 +45,14 @@
           top: 0;
           right: 0;
           display: inline-block; }
+      #content #container #top #search-widget #options-list .btn-option {
+        display: block;
+        width: 100%;
+        border-radius: 0; }
+        #content #container #top #search-widget #options-list .btn-option span {
+          float: right; }
+      #content #container #top #search-widget #options-list #new-albumns {
+        border-radius-bottom: 5px; }
 
 .ui-autocomplete-loading {
   background: white url("images/ui-anim_basic_16x16.gif") right center no-repeat; }

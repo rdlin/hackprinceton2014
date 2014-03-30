@@ -50,7 +50,6 @@
 
         #options-list {
           #search-bar {
-            border-radius-bottom: 0;
             position: relative;
 
             .input-search {
@@ -64,6 +63,20 @@
               right: 0;
               display: inline-block;
             }
+          }
+
+          .btn-option {
+            display: block;
+            width: 100%;
+            border-radius: 0;
+
+            span {
+              float: right;
+            }
+          }
+
+          #new-albumns {
+            border-radius-bottom: 5px;
           }
         }
       }

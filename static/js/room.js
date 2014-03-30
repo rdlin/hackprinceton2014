@@ -9,6 +9,8 @@ var socket;
 $(document).ready(function() {
   socket = io.connect('http://' + document.domain + ':' + location.port + '/macedonia');
   player = $('.js-username').val();
+
+  // this function logs you out when you leave the room (refresh, close window, back, e.t.c.)
   $(window).bind('beforeunload', function() {
     var username = $('.js-username').val(),
         room_name = $('.js-room').val();
@@ -40,7 +42,7 @@ $(document).ready(function() {
   };
   top_songs();
 
-    // By default show the top 20 songs
+  // By default show the top 20 songs
   var trending_albums = function() {
     $.get('/trendingalbums', function(data) {
       var res = "";
@@ -123,8 +125,37 @@ $(document).ready(function() {
         $("#songs").show();
       });
     });
-  }
+  };
   new_albums();
+
+  $(".btn-get-top-chart").on('click', function() {
+      top_songs();
+      $("#songs").show();
+  });
+
+  $(".btn-get-trending-albums").on('click', function() {
+      trending_albums();
+      $("#albums").show();
+  });
+
+  $(".btn-get-new-albums").on('click', function() {
+      new_albums();
+      $("#albums").show();
+  });
+
+  $(".btn-option").on('click', function() {
+      $(".btn-option").hide();
+      $(".btn-dropdown").show();
+      $("#option-list").hide();
+  });
+
+  $(".btn-dropdown").on('click', function() {
+      $(".btn-option").show();
+      $("#option-list").show();
+      $(".btn-dropdown").hide();
+      $("#songs").hide();
+      $("#albums").hide();
+  });
 
   // Constantly Update player list
   (function poll() {
@@ -232,34 +263,5 @@ $(document).ready(function() {
     } else {
       $('#p2-vid').prop('src', URL.createObjectURL(stream));
     }
-  });
-
-  $(".btn-get-top-chart").on('click', function() {
-      top_songs();
-      $("#songs").show();
-  });
-
-  $(".btn-get-trending-albums").on('click', function() {
-      trending_albums();
-      $("#albums").show();
-  });
-
-  $(".btn-get-new-albums").on('click', function() {
-      new_albums();
-      $("#albums").show();
-  });
-
-  $(".btn-option").on('click', function() {
-      $(".btn-option").hide();
-      $(".btn-dropdown").show();
-      $("#option-list").hide();
-  });
-
-  $(".btn-dropdown").on('click', function() {
-      $(".btn-option").show();
-      $("#option-list").show();
-      $(".btn-dropdown").hide();
-      $("#songs").hide();
-      $("#albums").hide();
   });
 });

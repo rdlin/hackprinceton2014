@@ -235,9 +235,7 @@ $(document).ready(function() {
   // Game ready, initialize!
   socket.on('game_ready', function(asdf) {
     $.get('/room/' + room_name, function(data) {
-      console.log('here');
       initGame(data.p1, data.p2);
-      console.log('and here');
     });
   });
 

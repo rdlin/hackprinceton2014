@@ -255,7 +255,7 @@ def verify_search_results(search_results):
 
 # SONG UTIL ENDS HERE
 
-
+# TESTED DONE
 # Randomly chooses two players and saves those two players for that room in the database
 # If there are not enough people, error message is displayed
 @app.route('/room/<room_name>')
@@ -294,8 +294,6 @@ def readyPlayer(data):
 
     for user in ready.find({'room': room}):
         number += 1
-    print('********************')
-    print(number)
     if number >= 3:
         emit('game_ready', room);
 

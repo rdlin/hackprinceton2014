@@ -87,6 +87,7 @@ $(document).ready(function() {
         $results.html(res);
         $spinner.hide();
         $results.slideDown();
+        bindResultsListeners();
       });
     });
   };

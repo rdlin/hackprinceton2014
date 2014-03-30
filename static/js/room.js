@@ -292,10 +292,14 @@ $(document).ready(function() {
           }
         }
 
-        // Show player 2 stream
-        peer.on('stream', function(remoteStream) {
-          $('#p2-vid').prop('src', URL.createObjectURL(remoteStream));
-          window.remoteStream = remoteStream;
+        // Answer call from player 1
+        peer.on('call', function(call) {
+          call.answer(stream);
+          //Show player 1 stream
+          call.on('stream', function(remoteStream) {
+            $('#p1-vid').prop('src', URL.createObjectURL(remoteStream));
+            window.remoteStream = remoteStream;
+          });
         });
       }, function(err) {
         console.log(err)
@@ -320,13 +324,16 @@ $(document).ready(function() {
         // Answer call from player 1
         peer.on('call', function(call) {
           call.answer(stream);
+          //Show player 1 stream
+          call.on('stream', function(remoteStream) {
+            $('#p2-vid').prop('src', URL.createObjectURL(remoteStream));
+            window.remoteStream = remoteStream;
+          });
         });
 
-        //Show player 1 stream
-        peer.on('stream', function(remoteStream) {
-          $('#p2-vid').prop('src', URL.createObjectURL(remoteStream));
-          window.remoteStream = remoteStream;
-        });
+
+        // Call p2
+        call = peer.call(p1, stream);
       }, function(err) {
         console.log(err)
       });

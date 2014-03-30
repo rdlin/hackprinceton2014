@@ -266,26 +266,48 @@ $(document).ready(function() {
     });
   });
 
-  $("#retry-button").on('click', function() {
-    initGame(pl1, pl2)
-  });
-
   function initGame(p1, p2) {
     // p1, p2 call all other players
     pl1 = p1;
     pl2 = p2;
-    $("#retry-button").show();
     if (player === p1) {
       playerSelected = true;
       navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 
       // Call all other players with active media stream
       navigator.getUserMedia({video: true, audio: true}, function(stream) {
-        $("#retry-button").hide();
         // Show player 1 stream
         window.localStream = stream;
         $('#p1-vid').prop('src', URL.createObjectURL(stream));
 
+        for (var i = 0; i < players.length; i++) {
+          if (players[i] !== player) {
+            call = peer.call(players[i], stream);
+          }
+        }
+
+        // Answer call from player 2
+        peer.on('call', function(call) {
+          call.answer(stream);
+          //Show player 1 stream
+          call.on('stream', function(remoteStream) {
+            $('#p2-vid').prop('src', URL.createObjectURL(remoteStream));
+            window.remoteStream = remoteStream;
+          });
+        });
+      }, function(err) {
+        console.log(err)
+      });
+    } else if (player === p2) {
+      playerSelected = true;
+      navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+
+      navigator.getUserMedia({video: true, audio: true}, function(stream) {
+        // Show player 2 stream
+        window.localStream = stream;
+        $('#p1-vid').prop('src', URL.createObjectURL(stream));
+
+        // Call all other players EXCEPT p1 with active media stream
         for (var i = 0; i < players.length; i++) {
           if (players[i] !== player) {
             call = peer.call(players[i], stream);
@@ -301,39 +323,6 @@ $(document).ready(function() {
             window.remoteStream = remoteStream;
           });
         });
-      }, function(err) {
-        console.log(err)
-      });
-    } else if (player === p2) {
-      playerSelected = true;
-      navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-      $("#retry-button").show();
-      navigator.getUserMedia({video: true, audio: true}, function(stream) {
-        $("#retry-button").hide();
-        // Show player 2 stream
-        window.localStream = stream;
-        $('#p1-vid').prop('src', URL.createObjectURL(stream));
-
-        // Call all other players EXCEPT p1 with active media stream
-        for (var i = 0; i < players.length; i++) {
-          if (players[i] !== p1 && players[i] !== player) {
-            call = peer.call(players[i], stream);
-          }
-        }
-
-        // Answer call from player 1
-        peer.on('call', function(call) {
-          call.answer(stream);
-          //Show player 1 stream
-          call.on('stream', function(remoteStream) {
-            $('#p2-vid').prop('src', URL.createObjectURL(remoteStream));
-            window.remoteStream = remoteStream;
-          });
-        });
-
-
-        // Call p2
-        call = peer.call(p1, stream);
       }, function(err) {
         console.log(err)
       });

@@ -21,14 +21,14 @@ $(document).ready(function() {
   // SONGS
   // By default show the top 20 songs
   var top_songs = function() {
-    $.get('/toptracks', function(data) {
+    $.get('/toptracks/', function(data) {
       var res = "";
       for (var i = 0; i < Object.keys(data.data).length; i++) {
         var $element = data.data[i];
         if (res.length !== 0) {
           res += "<br>";
         }
-        res += '<button style="width:500px" value="' + $element.embedUrl + '">' + $element.name + ' &mdash; ' + $element.artist + '</button>';
+        res += '<button style="width:500px" value="' + $element.embedUrl + '" data-name="' + $element.name + '" data-artist="' + $element.artist + '">' + $element.name + ' &mdash; ' + $element.artist + '</button>';
     }
     $songs.html(res);
 
@@ -36,7 +36,9 @@ $(document).ready(function() {
       $songs.html('<embed src="/static/images/spinner.gif"> ');
       var url = $(this).attr('value');
       var res = '<embed src="' + url + '">';
-        $songs.html(res);
+      var name = $(this).data('name');
+      var artist = $(this).data('artist');
+      $.get('/lyrics/'+name+'/'+artist, function(data) { debugger; $songs.html(res+'<p>'+data+'/>') });
       });
     });
   };
@@ -66,15 +68,17 @@ $(document).ready(function() {
               if (res.length !== 0) {
                 res += "<br>";
               }
-              res += '<button style="width:500px" value="' + $element.embedUrl + '">' + $element.name + ' &mdash; ' + $element.artist + '</button>';
-            }
+              res += '<button style="width:500px" value="' + $element.embedUrl + '" data-name="' + $element.name + '" data-artist="' + $element.artist + '">' + $element.name + ' &mdash; ' + $element.artist + '</button>';
+          }
           $songs.html(res);
 
           $songs.find('button').on('click', function() {
             $songs.html('<embed src="/static/images/spinner.gif"> ');
             var url = $(this).attr('value');
             var res = '<embed src="' + url + '">';
-              $songs.html(res);
+            var name = $(this).data('name');
+            var artist = $(this).data('artist');
+            $.get('/lyrics/'+name+'/'+artist, function(data) { debugger; $songs.html(res+'<p>'+data+'/>') });
             });
           });
         };
@@ -109,15 +113,17 @@ $(document).ready(function() {
               if (res.length !== 0) {
                 res += "<br>";
               }
-              res += '<button style="width:500px" value="' + $element.embedUrl + '">' + $element.name + ' &mdash; ' + $element.artist + '</button>';
-            }
+              res += '<button style="width:500px" value="' + $element.embedUrl + '" data-name="' + $element.name + '" data-artist="' + $element.artist + '">' + $element.name + ' &mdash; ' + $element.artist + '</button>';
+          }
           $songs.html(res);
 
           $songs.find('button').on('click', function() {
             $songs.html('<embed src="/static/images/spinner.gif"> ');
             var url = $(this).attr('value');
             var res = '<embed src="' + url + '">';
-              $songs.html(res);
+            var name = $(this).data('name');
+            var artist = $(this).data('artist');
+            $.get('/lyrics/'+name+'/'+artist, function(data) { debugger; $songs.html(res+'<p>'+data+'/>') });
             });
           });
         };

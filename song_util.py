@@ -73,6 +73,12 @@ def get_trending_albums_this_week():
 
 #musixmatch lyric search
 
+@app.route("/<artist>/<track>/")
+def getOneLineInfo():
+    one_line_soup = BeautifulSoup(urllib2.urlopen('http://www.azlyrics.com/lyrics/'+artist+'/'+track+'.html').read())
+    print("blag")
+    return one_line_soup('div')[6];
+
 def get_lyrics_for_track_name(name='', artist='', lyrics=''):
     track_result_list = track.search(q_track=name, q_artist=artist, q_lyrics=lyrics)
     result = filterLyrics(track_result_list[0].lyrics()['lyrics_body'])

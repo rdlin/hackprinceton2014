@@ -11,6 +11,8 @@ from rdio import Rdio
 from musixmatch import track
 import random
 import time
+from bs4 import BeautifulSoup
+import urllib2
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yext1234'
@@ -122,10 +124,23 @@ def get_lyrics_for_track_name(name='', artist='', lyrics=''):
     result = filterLyrics(track_result_list[0].lyrics()['lyrics_body'])
     return result
 
+
+@app.route("/lyrics/<name>/<artist>/")
+def get_lyrics(name=None, artist=None):
+    from musixmatch import track
+    track_result_list = track.search(q_track=name, q_artist=artist)
+    result = filterLyrics(track_result_list[0].lyrics()['lyrics_body'])
+    return result
+
+def getOneLineInfo(track=None, artist=None):
+    one_line_soup = BeautifulSoup(urllib2.urlopen('http://www.azlyrics.com/lyrics/'+artist.lower().replace(" ","")+'/'+track.lower().replace(" ","")+'.html').read())
+    return one_line_soup('div')[6];
+
 def filterLyrics(lyrics):
     bad_word_dict = {
         "******* This Lyrics is NOT for Commercial use *******": "",
-        "fuck": "f*ck"}
+        "fuck": "f*ck"
+        "... />": ""}
     for bad_word in bad_word_dict.keys():
         lyrics = lyrics.replace(bad_word, bad_word_dict[bad_word])
     return lyrics

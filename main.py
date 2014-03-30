@@ -51,20 +51,19 @@ def room(room, username):
 
 @socketio.on('join')
 def on_join(data):
-    print(data)
-    print('hello')
     username = data['username']
     room = data['room']
     join_room(room)
-    print('on_join')
-    send(username + ' has entered the room.', room=room)
+    # emit('joined', room=room)
+    # send(username + ' has entered the room.', room=room)
 
 @socketio.on('leave')
 def on_leave(data):
     username = data['username']
     room = data['room']
     leave_room(room)
-    send(username + ' has left the room.', room=room)
+    # emit('left', room=room)
+    # send(username + ' has left the room.', room=room)
     
 @app.route('/leave/<room>/<username>/', methods=['POST'])
 def leave(room, username):
@@ -261,15 +260,29 @@ def verify_search_results(search_results):
 
 # Randomly chooses two players and saves those two players for that room in the database
 # If there are not enough people, error message is displayed
-@socketio.on('initPairPlayers')
 @app.route('/room/<room_name>')
 def initPairPlayers(room_name):
     # Change this number to 3 eventually
-    if (collection.find({'room': room_name}).count() < 1):
+    number = 0
+    for user in collection.find({'room': room_name}):
+        number += 1
+    if number < 3:
         return jsonify(error="There should be at least 3 people in the room for a game to start.")
     users = []
-    for user in ready.find():
-        users.add(user.get('username'))
+
+    for user in ready.find({'room': room_name}):
+        pdb.set_trace()
+        print(user)
+        
+    
+    number = 0
+    for user in ready.find({'room': room_name}):
+        #pdb.set_trace()
+        users.add(user.get('data').get('username'))
+        print(user)
+        number += 1
+    print(number)
+    pdb.set_trace()
     selected = random.sample(users, 2)
     # Remove the next line if you don't want calling initPairPlayers to delete the old pair
     # from the database
@@ -278,6 +291,7 @@ def initPairPlayers(room_name):
     print(selected)
     print(selected.get(0))
     print(selected.get(1))
+    
     chosen.insert({'room1': room_name, 'username': selected.get(0)})
     chosen.insert({'room2': room_name, 'username': selected.get(1)})
     
@@ -297,12 +311,15 @@ def readyPlayer(data):
 
     for user in ready.find({'room': room}):
         number += 1
+    print('********************')
+    print(number)
     if number >= 3:
         emit('game_ready', room);
 
 # Once two players have been chosen, this just returns a map of those two players
-@app.route('/room/<room>')
+@app.route('/room/<room>/get_pair')
 def getPairPlayers(room):
+    pdb.set_trace()
     return jsonify({'dummydata': 'chun is a b****'})
     # pdb.set_trace()
     # return jsonify([data=chosen.find_one({'room1': room})])

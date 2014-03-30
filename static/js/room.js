@@ -7,7 +7,7 @@ var $albums = $('#albums');
 var socket;
 
 $(document).ready(function() {
-  socket = io.connect;
+  socket = io.connect();
   player = $('.js-username').val();
   // this function logs you out when you leave the room (refresh, close window, back, e.t.c.)
   var username = $('.js-username').val(),
@@ -189,9 +189,14 @@ $(document).ready(function() {
   });
 
   // Game ready, initialize!
-  socket.on('game_ready', function() {
-    $.get("/room/" + room, function(data) {
-      initGame(0, 1);
+  socket.on('game_ready', function(asdf) {
+    console.log('what is the problem');
+    console.log(asdf);
+    debugger;
+    $.get('/room/' + room_name, function(data) {
+      console.log('inside');
+      console.log('data');
+      debugger;
     });
   })
 

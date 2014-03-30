@@ -1,32 +1,3 @@
-#content {
-  padding-left: 250px;
-  transition: all 0.4s ease 0s; }
-
-#content #left-nav-wrapper {
-  margin-left: -250px;
-  left: 250px;
-  width: 250px;
-  background: #000;
-  color: white;
-  position: fixed;
-  height: 100%;
-  overflow-y: auto;
-  transition: all 0.4s ease 0s; }
-  #content #left-nav-wrapper .left-nav {
-    position: absolute;
-    top: 0;
-    width: 100%;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    padding-bottom: 40px; }
-    #content #left-nav-wrapper .left-nav .sidebar-item {
-      padding: 10px 20px;
-      font-size: 18px;
-      color: #CCC; }
-    #content #left-nav-wrapper .left-nav .sidebar-item:hover {
-      color: white;
-      background-color: #333; }
 #content #container {
   height: 100%;
   width: 100%; }

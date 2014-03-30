@@ -33,7 +33,9 @@
       height: 300px; }
 
 #users .player {
-  margin: 20px 10px; }
+  margin: 20px 10px;
+  display: inline-block;
+  padding: 10px 10px; }
 
 .spinner {
   background: lightgray url("/static/images/spinner.gif") center no-repeat; }

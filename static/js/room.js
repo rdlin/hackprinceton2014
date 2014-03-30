@@ -216,7 +216,7 @@ $(document).ready(function() {
       players = data.data;
       res = '';
       for (var i = 0; i < players.length; i++) {
-        res += '<div class="label label-primary"><span class="glyphicon glyphicon-user"></span> ' + players[i] + '</div>';
+        res += '<h2><div class="label label-warning player"><span class="glyphicon glyphicon-user"></span> ' + players[i] + '</div></h2>';
       }
       $('#users').html(res);
     }, dataType: "json", complete: poll, timeout: 2000 });

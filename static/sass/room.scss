@@ -56,6 +56,12 @@
   }
 }
 
+#users {
+  .player {
+    margin: 20px 10px;
+  }
+}
+
 .spinner {
   background: white url('/static/images/spinner.gif') right center no-repeat;
 }

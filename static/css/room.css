@@ -31,6 +31,9 @@
     #top #search-widget #ajax-spinner {
       margin: 40px 0; }
 
+#users .player {
+  margin: 20px 10px; }
+
 .spinner {
   background: white url("/static/images/spinner.gif") right center no-repeat; }
 

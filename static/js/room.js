@@ -343,6 +343,7 @@ $(document).ready(function() {
     }
     setTimeout(function() {
       playerSelected = false;
+      $('#start-button').removeAttr('disabled');
       $.get('/room/' + room_name + '/clean_state', function(data) {
         var i = 0; // my coolest placeholder!
       });

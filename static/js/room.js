@@ -1,7 +1,6 @@
 var players = [];
 var player;
 var call;
-var getUserMedia;
 var $spinner = $('#ajax-spinner');
 var $results = $('#results');
 var $selected = $('#selected');
@@ -246,10 +245,10 @@ $(document).ready(function() {
     debugger;
     // p1, p2 call all other players
     if (player === p1) {
-      getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+      navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 
       // Call all other players with active media stream
-      getUserMedia({video: true, audio: true}, function(stream) {
+      navigator.getUserMedia({video: true, audio: true}, function(stream) {
         // Show player 1 stream
         window.localStream = stream;
         $('#p1-vid').prop('src', URL.createObjectURL(stream));
@@ -267,9 +266,9 @@ $(document).ready(function() {
         });
       });
     } else if (player === p2) {
-      getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+      navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 
-      getUserMedia({video: true, audio: true}, function(stream) {
+      navigator.getUserMedia({video: true, audio: true}, function(stream) {
         // Show player 2 stream
         window.localStream = stream;
         $('#p1-vid').prop('src', URL.createObjectURL(stream));

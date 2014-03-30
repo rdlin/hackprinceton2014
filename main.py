@@ -269,23 +269,18 @@ def initPairPlayers(room_name):
     if number < 3:
         return jsonify(error="There should be at least 3 people in the room for a game to start.")
     users = []
-    number = 0
     for user in ready.find({'room': room_name}):
         users.append(user.get('data').get('username'))
-        number += 1
     selected = random.sample(users, 2)
     # Remove the next line if you don't want calling initPairPlayers to delete the old pair
     # from the database
     chosen.remove({'room1': room_name})
     chosen.remove({'room2': room_name})
-    print(selected)
-    print(selected.get(0))
-    print(selected.get(1))
+
+    chosen.insert({'room1': room_name, 'username': selected[0]})
+    chosen.insert({'room2': room_name, 'username': selected[1]})
     
-    chosen.insert({'room1': room_name, 'username': selected.get(0)})
-    chosen.insert({'room2': room_name, 'username': selected.get(1)})
-    
-    return jsonify(selected)
+    return jsonify({'p1':selected[0], 'p2':selected[1]})
 
 # TESTED DONE
 counter = 0

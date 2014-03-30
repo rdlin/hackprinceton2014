@@ -190,17 +190,15 @@ $(document).ready(function() {
 
   // Game ready, initialize!
   socket.on('game_ready', function(asdf) {
-    console.log('what is the problem');
-    console.log(asdf);
-    debugger;
     $.get('/room/' + room_name, function(data) {
-      console.log('inside');
-      console.log('data');
-      debugger;
+      console.log('here');
+      initGame(data.p1, data.p2);
+      console.log('and here');
     });
   })
 
   function initGame(p1, p2) {
+    debugger;
     // p1, p2 call all other players
     if (player === p1) {
       getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;

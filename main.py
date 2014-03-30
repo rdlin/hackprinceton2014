@@ -49,6 +49,23 @@ def room(room, username):
         return renderErrorInTemplate('index.html', room, username,
                                          error=' This user has already been taken for this room.')
 
+@socketio.on('join')
+def on_join(data):
+    print(data)
+    print('hello')
+    username = data['username']
+    room = data['room']
+    join_room(room)
+    print('on_join')
+    send(username + ' has entered the room.', room=room)
+
+@socketio.on('leave')
+def on_leave(data):
+    username = data['username']
+    room = data['room']
+    leave_room(room)
+    send(username + ' has left the room.', room=room)
+    
 @app.route('/leave/<room>/<username>/', methods=['POST'])
 def leave(room, username):
     collection.remove({'room': room, 'username':username})
@@ -140,7 +157,7 @@ def getOneLineInfo(track=None, artist=None):
 def filterLyrics(lyrics):
     bad_word_dict = {
         "******* This Lyrics is NOT for Commercial use *******": "",
-        "fuck": "f*ck"
+        "fuck": "f*ck",
         "... />": ""}
     for bad_word in bad_word_dict.keys():
         lyrics = lyrics.replace(bad_word, bad_word_dict[bad_word])

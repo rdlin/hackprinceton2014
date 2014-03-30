@@ -7,14 +7,15 @@ var $albums = $('#albums');
 var socket;
 
 $(document).ready(function() {
-  socket = io.connect('http://' + document.domain + ':' + location.port + '/macedonia');
+  socket = io.connect;
   player = $('.js-username').val();
-
   // this function logs you out when you leave the room (refresh, close window, back, e.t.c.)
+  var username = $('.js-username').val(),
+      room_name = $('.js-room').val();
   $(window).bind('beforeunload', function() {
-    var username = $('.js-username').val(),
-        room_name = $('.js-room').val();
-    $.post('/leave/' + room_name + '/' + username + '/', function(data) { });
+    $.post('/leave/' + room_name + '/' + username + '/', function(data) {
+      socket.emit('leave', {room: $('.js-room').val(), username: player});
+    });
     return 'Going to this url will log you out of this room.';
   });
 
@@ -55,7 +56,7 @@ $(document).ready(function() {
         }
         res += '<button style="width:500px" value="' + $element.key + '">' + $element.name + ' &mdash; ' + $element.artist + '</button>';
       }
-      $albums.html(res);
+     $albums.html(res);
 
       $albums.find('button').on('click', function() {
         var key = $(this).attr('value');
@@ -175,6 +176,7 @@ $(document).ready(function() {
   // Initalize peers
   var peer = new Peer(player, {key: 'p9bjyjl6vzxpf1or'});
   peer.on('open', function(id) {
+    socket.emit('join', {room: $('.js-room').val(), username: player});
     // Enable start button
     $('#start-button').show();
   });
@@ -187,13 +189,11 @@ $(document).ready(function() {
   });
 
   // Game ready, initialize!
-  socket.on('game_ready', function(room) {
-    debugger;
-    $.get({url:"/room/" + room, success: function(data) {
-      
+  socket.on('game_ready', function() {
+    $.get("/room/" + room, function(data) {
+      initGame(0, 1);
     });
-    initGame(0, 1);
-  });
+  })
 
   function initGame(p1, p2) {
     // p1, p2 call all other players

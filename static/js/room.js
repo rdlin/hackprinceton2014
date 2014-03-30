@@ -283,7 +283,7 @@ $(document).ready(function() {
             window.remoteStream = remoteStream;
           }
         });
-      });
+      }, function(err) { console.log(err)} );
     } else if (player === p2) {
       playerSelected = true;
       navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
@@ -312,7 +312,7 @@ $(document).ready(function() {
             window.remoteStream = remoteStream;
           }
         });
-      });
+      }, function(err) { console.log(err)} );
     } else {
       // Answer the call with no media (judges)
       peer.on('call', function(call) {

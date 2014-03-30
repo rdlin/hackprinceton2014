@@ -287,7 +287,7 @@ $(document).ready(function() {
         $('#p1-vid').prop('src', URL.createObjectURL(stream));
 
         for (var i = 0; i < players.length; i++) {
-          if players[i] !== player {
+          if (players[i] !== player) {
             call = peer.call(players[i], stream);
           }
         }
@@ -335,9 +335,13 @@ $(document).ready(function() {
       peer.on('call', function(call) {
         call.answer();
         if (call.peer === p1) {
-          $('#p1-vid').prop('src', URL.createObjectURL(stream));
+          call.on('stream', function(stream) {
+            $('#p1-vid').prop('src', URL.createObjectURL(stream));
+          });
         } else {
-          $('#p2-vid').prop('src', URL.createObjectURL(stream));
+          call.on('stream', function(stream) {
+            $('#p2-vid').prop('src', URL.createObjectURL(stream));
+          });
         }
       });
     }

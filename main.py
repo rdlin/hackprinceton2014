@@ -8,11 +8,10 @@ from flask.ext.socketio import SocketIO, send, emit, join_room, leave_room
 from pymongo import Connection
 import pdb
 from rdio import Rdio
-from musixmatch import track
 import random
 import time
 import urllib2
-
+from musixmatch import track
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yext1234'
@@ -141,13 +140,13 @@ def get_lyrics_for_track_name(name='', artist='', lyrics=''):
 
 @app.route("/lyrics/<name>/<artist>/")
 def get_lyrics(name=None, artist=None):
-    from musixmatch import track
     track_result_list = track.search(q_track=name, q_artist=artist)
     result = filterLyrics(track_result_list[0].lyrics()['lyrics_body'])
     return result
 
-def getOneLineInfo(track=None, artist=None):
-    one_line_soup = BeautifulSoup(urllib2.urlopen('http://www.azlyrics.com/lyrics/'+artist.lower().replace(" ","")+'/'+track.lower().replace(" ","")+'.html').read())
+def getOneLineInfo(name=None, artist=None):
+    one_line_soup = BeautifulSoup(urllib2.urlopen('http://www.azlyrics.com/lyrics/'+artist.lower().replace(" ","")+'/'+name.lower().replace(" ","")+'.html').read())
+    pdb.set_trace()
     return one_line_soup('div')[6];
 
 def filterLyrics(lyrics):
@@ -173,8 +172,7 @@ def get_top_chart_tracks(count="20"):
 
 @app.route('/endpoint/search/<track_name>/')
 def search_track_endpoint(track_name):
-    from musixmatch import track
-    return jsonify(search_for_tracks(track_name, 20));
+    return jsonify(data=search_for_tracks(track_name));
 
 def search_for_tracks(search_query, count="10"):
     return search_for_items("Track", search_query, count)

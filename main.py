@@ -139,7 +139,6 @@ def get_lyrics_for_track_name(name='', artist='', lyrics=''):
     result = filterLyrics(track_result_list[0].lyrics()['lyrics_body'])
     return result
 
-
 @app.route("/lyrics/<name>/<artist>/")
 def get_lyrics(name=None, artist=None):
     from musixmatch import track
@@ -171,6 +170,11 @@ def get_top_chart_tracks(count="20"):
     if (top_charts_request["status"] != "ok"):
         raise Exception("Status for getting top chart returned not ok")
     return jsonify(data=top_charts_request["result"])
+
+@app.route('/endpoint/search/<track_name>/')
+def search_track_endpoint(track_name):
+    from musixmatch import track
+    return jsonify(search_for_tracks(track_name, 20));
 
 def search_for_tracks(search_query, count="10"):
     return search_for_items("Track", search_query, count)

@@ -4,7 +4,7 @@
   text-align: center;
 
   #search-widget {
-    margin-top: 10px;
+    margin-top: 20px;
     display: inline-block;
     width: 500px;
 
@@ -51,7 +51,8 @@
     }
 
     #ajax-spinner {
-      margin: 40px 0;
+      width: 100%;
+      height: 300px
     }
   }
 }
@@ -63,7 +64,7 @@
 }
 
 .spinner {
-  background: white url('/static/images/spinner.gif') right center no-repeat;
+  background: #d3d3d3 url('/static/images/spinner.gif') center no-repeat;
 }
 
 #start-button {

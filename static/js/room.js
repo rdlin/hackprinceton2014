@@ -119,49 +119,49 @@ $(document).ready(function() {
   };
 
   // By default show the top 20 songs
-  var trending_albums = function() {
-    $.get('/trendingalbums', function(data) {
-      var res = "";
-      for (var i = 0; i < Object.keys(data.data).length; i++) {
-        var $element = data.data[i];
-        if (res.length !== 0) {
-          res += "<br>";
-        }
-        res += '<button style="width:500px" value="' + $element.key + '">' + $element.name + ' &mdash; ' + $element.artist + '</button>';
-      }
-     $albums.html(res);
+  // var trending_albums = function() {
+  //   $.get('/trendingalbums', function(data) {
+  //     var res = "";
+  //     for (var i = 0; i < Object.keys(data.data).length; i++) {
+  //       var $element = data.data[i];
+  //       if (res.length !== 0) {
+  //         res += "<br>";
+  //       }
+  //       res += '<button style="width:500px" value="' + $element.key + '">' + $element.name + ' &mdash; ' + $element.artist + '</button>';
+  //     }
+  //    $albums.html(res);
 
-      $albums.find('button').on('click', function() {
-        var key = $(this).attr('value');
-        var top_songs = function() {
-          $("#albums").hide();
-          $.get('/tracks/' + key, function(data) {
-            var res = "";
-            for (var i = 0; i < Object.keys(data.data).length; i++) {
-              var $element = data.data[i];
-              if (res.length !== 0) {
-                res += "<br>";
-              }
-              res += '<button style="width:500px" value="' + $element.embedUrl + '" data-name="' + $element.name + '" data-artist="' + $element.artist + '">' + $element.name + ' &mdash; ' + $element.artist + '</button>';
-          }
-          $songs.html(res);
+  //     $albums.find('button').on('click', function() {
+  //       var key = $(this).attr('value');
+  //       var top_songs = function() {
+  //         $("#albums").hide();
+  //         $.get('/tracks/' + key, function(data) {
+  //           var res = "";
+  //           for (var i = 0; i < Object.keys(data.data).length; i++) {
+  //             var $element = data.data[i];
+  //             if (res.length !== 0) {
+  //               res += "<br>";
+  //             }
+  //             res += '<button style="width:500px" value="' + $element.embedUrl + '" data-name="' + $element.name + '" data-artist="' + $element.artist + '">' + $element.name + ' &mdash; ' + $element.artist + '</button>';
+  //         }
+  //         $songs.html(res);
 
-          $songs.find('button').on('click', function() {
-            $songs.html('<embed src="/static/images/spinner.gif"> ');
-            var url = $(this).attr('value');
-            var res = '<embed src="' + url + '">';
-            var name = $(this).data('name');
-            var artist = $(this).data('artist');
-            $.get('/lyrics/'+name+'/'+artist, function(data) { $songs.html(res+'<p>'+data+'/>') });
-            });
-          });
-        };
-        top_songs();
-        $("#songs").show();
-      });
-    });
-  };
-  trending_albums();
+  //         $songs.find('button').on('click', function() {
+  //           $songs.html('<embed src="/static/images/spinner.gif"> ');
+  //           var url = $(this).attr('value');
+  //           var res = '<embed src="' + url + '">';
+  //           var name = $(this).data('name');
+  //           var artist = $(this).data('artist');
+  //           $.get('/lyrics/'+name+'/'+artist, function(data) { $songs.html(res+'<p>'+data+'/>') });
+  //           });
+  //         });
+  //       };
+  //       top_songs();
+  //       $("#songs").show();
+  //     });
+  //   });
+  // };
+  // trending_albums();
 
 //   // By default show the top 20 songs
 //   var new_albums = function() {

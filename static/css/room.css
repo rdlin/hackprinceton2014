@@ -31,8 +31,8 @@
     #top #search-widget #ajax-spinner {
       margin: 40px 0; }
 
-.ui-autocomplete-loading {
-  background: white url("images/ui-anim_basic_16x16.gif") right center no-repeat; }
+.spinner {
+  background: white url("/static/images/spinner.gif") right center no-repeat; }
 
 #start-button {
   text-align: center;

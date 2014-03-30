@@ -1,25 +1,22 @@
-#content {
-  background: url("/static/images/hp-background.jpg");
-  background-size: cover; }
-  #content .hp-centered {
-    width: 500px;
-    height: 300px;
-    position: absolute;
-    margin: -150px 0 0 -250px;
-    top: 50%;
-    left: 50%;
-    opacity: 0.4;
-    background-color: white;
-    border-radius: 10px; }
-  #content #hp-menu {
-    padding: 50px 85px;
-    width: 500px;
-    height: 300px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin: -150px 0 0 -250px;
-    margin-bottom: -140px;
-    text-align: center; }
-  #content .form-group {
-    width: 300px; }
+#content .hp-centered {
+  width: 500px;
+  height: 300px;
+  position: absolute;
+  margin: -150px 0 0 -250px;
+  top: 50%;
+  left: 50%;
+  opacity: 0.4;
+  background-color: white;
+  border-radius: 10px; }
+#content #hp-menu {
+  padding: 50px 85px;
+  width: 500px;
+  height: 300px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -150px 0 0 -250px;
+  margin-bottom: -140px;
+  text-align: center; }
+#content .form-group {
+  width: 300px; }

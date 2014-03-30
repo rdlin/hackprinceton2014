@@ -313,6 +313,16 @@ $(document).ready(function() {
           }
         });
       });
+    } else {
+      // Answer the call with no media (judges)
+      peer.on('call', function(call) {
+        call.answer();
+        if (call.peer === p1) {
+          $('#p1-vid').prop('src', URL.createObjectURL(stream));
+        } else {
+          $('#p2-vid').prop('src', URL.createObjectURL(stream));
+        }
+      });
     }
   }
 
@@ -329,14 +339,5 @@ $(document).ready(function() {
         var players = data.data;
       }
     });
-  });
-  // Answer the call with no media (judges)
-  peer.on('call', function(call) {
-    call.answer();
-    if (call.peer === p1) {
-      $('#p1-vid').prop('src', URL.createObjectURL(stream));
-    } else {
-      $('#p2-vid').prop('src', URL.createObjectURL(stream));
-    }
   });
 });

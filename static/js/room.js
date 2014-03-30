@@ -7,7 +7,7 @@ var $albums = $('#albums');
 var socket;
 
 $(document).ready(function() {
-  socket = io.connect();
+  socket = io.connect('http://' + document.domain + ':' + location.port + '/macedonia');
   player = $('.js-username').val();
   $(window).bind('beforeunload', function() {
     var username = $('.js-username').val(),

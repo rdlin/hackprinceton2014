@@ -63,7 +63,13 @@ $(document).ready(function() {
   };
 
   var songSearchListener = function() {
-
+    $('#song-search').on('click', function() {
+      var $this = $('#song-search-input');
+      $spinner.slideDown();
+      $.get('/endpoint/search/' + $this.val(), function(data) {
+        $results.html(data);
+      });
+    });
   };
 
   // binds a listener to top tracks

@@ -297,7 +297,7 @@ $(document).ready(function() {
           call.answer(stream);
           //Show player 1 stream
           call.on('stream', function(remoteStream) {
-            $('#p1-vid').prop('src', URL.createObjectURL(remoteStream));
+            $('#p2-vid').prop('src', URL.createObjectURL(remoteStream));
             window.remoteStream = remoteStream;
           });
         });

@@ -5,6 +5,7 @@ var getUserMedia;
 var $spinner = $('#ajax-spinner');
 var $results = $('#results');
 var $selected = $('#selected');
+var curSelected;
 var socket;
 
 $(document).ready(function() {
@@ -34,6 +35,8 @@ $(document).ready(function() {
         var artist = $this.data('artist');
         $.get('/lyrics/'+name+'/'+artist, function(data) {
           $selected.html(res+'<p>'+data+'/>');
+          $selected.slideDown();
+          //set curSelected here
         });
       }
     });
@@ -50,11 +53,13 @@ $(document).ready(function() {
 
   var showResults = function($this) {
     $children = $('#options-list').children();
-    for (var $child in $children) {
-      if ($child != $this) {
+    for (var i = 0; i < $children.length; i++) {
+      var $child = $($children.get(i));
+      if ($child.attr('id') != $this.attr('id')) {
         $child.slideUp();
       }
     }
+    $results.slideDown();
   };
 
   var songSearchListener = function() {
@@ -67,6 +72,7 @@ $(document).ready(function() {
       var $this = $(this);
       var $glyph = $this.children('span');
       if ($this.hasClass('selected-option')) {
+        $this.removeClass('selected-option');
         hideResults(function() {
           $glyph.removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
           $results.html('');
@@ -86,7 +92,7 @@ $(document).ready(function() {
           }
           $results.html(res);
           $spinner.hide();
-          $results.slideDown();
+          showResults($this);
           bindResultsListeners();
           $this.addClass('selected-option');
           $glyph.removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');

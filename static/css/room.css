@@ -45,6 +45,8 @@
           top: 0;
           right: 0;
           display: inline-block; }
+      #content #container #top #search-widget #options-list .selected-option {
+        color: black; }
       #content #container #top #search-widget #options-list .btn-option {
         display: block;
         width: 100%;
@@ -55,6 +57,8 @@
         border-radius-bottom: 5px; }
       #content #container #top #search-widget #results .result {
         width: 100%; }
+      #content #container #top #search-widget #ajax-spinner {
+        margin: 40px 0; }
 
 .ui-autocomplete-loading {
   background: white url("images/ui-anim_basic_16x16.gif") right center no-repeat; }

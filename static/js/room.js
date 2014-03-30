@@ -287,15 +287,15 @@ $(document).ready(function() {
         $('#p1-vid').prop('src', URL.createObjectURL(stream));
 
         for (var i = 0; i < players.length; i++) {
-          call = peer.call(players[i], stream);
+          if players[i] !== player {
+            call = peer.call(players[i], stream);
+          }
         }
 
         // Show player 2 stream
         peer.on('stream', function(remoteStream) {
-          if (remoteStream) {
-            $('#p2-vid').prop('src', URL.createObjectURL(remoteStream));
-            window.remoteStream = remoteStream;
-          }
+          $('#p2-vid').prop('src', URL.createObjectURL(remoteStream));
+          window.remoteStream = remoteStream;
         });
       }, function(err) {
         console.log(err)
@@ -312,7 +312,7 @@ $(document).ready(function() {
 
         // Call all other players EXCEPT p1 with active media stream
         for (var i = 0; i < players.length; i++) {
-          if (players[i] !== p1) {
+          if (players[i] !== p1 && players[i] !== player) {
             call = peer.call(players[i], stream);
           }
         }
@@ -324,10 +324,8 @@ $(document).ready(function() {
 
         //Show player 1 stream
         peer.on('stream', function(remoteStream) {
-          if (remoteStream) {
-            $('#p2-vid').prop('src', URL.createObjectURL(remoteStream));
-            window.remoteStream = remoteStream;
-          }
+          $('#p2-vid').prop('src', URL.createObjectURL(remoteStream));
+          window.remoteStream = remoteStream;
         });
       }, function(err) {
         console.log(err)

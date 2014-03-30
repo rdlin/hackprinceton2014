@@ -27,25 +27,27 @@
   <div id="container">
     <div id="top">
       <div id="search-widget">
-        <div id="search-bar">
-          <input type="text"
-                 class="js-search-text input-search"
-                 placeholder="Type to search">
-          </input>
-          <button type="button" class="btn btn-primary button-search">Search</button>
-        </div>
-        <button type="button" class="btn btn-dropdown btn-warning btn-get-top-chart">
-            <span class="glyphicon glyphicon-chevron-down"></span>
-        </button>
         <div id="options-list">
-          <button type="button" class="btn btn-option btn-success btn-get-top-chart">Get Top Tracks</button>
-          <button type="button" class="btn btn-option btn-success btn-get-trending-albums">Get Trending Albums</button>
-          <button type="button" class="btn btn-option btn-success btn-get-new-albums">Get New Albums</button>
-          <div id="songs">
+          <div id="search-bar">
+            <input type="text"
+                   class="js-search-text input-search form-control"
+                   placeholder="Type to search">
+            <button type="button" class="btn btn-primary button-search">
+              <span class="glyphicon glyphicon-search"></span>
+            </button>
           </div>
-          <div id="albums">
-          </div>
+          <button type="button" id="top-tracks" class="btn btn-option btn-success btn-get-top-chart">
+            Get Top Tracks <span class="glyphicon glyphicon-chevron-down"></span>
+          </button>
+          <button type="button" id="trending-albums" class="btn btn-option btn-success btn-get-trending-albums">
+            Get Trending Albums <span class="glyphicon glyphicon-chevron-down"></span>
+          </button>
+          <button type="button" id="new-albums" class="btn btn-option btn-success btn-get-new-albums">
+            Get New Albums <span class="glyphicon glyphicon-chevron-down"></span>
+          </button>
         </div>
+        <div id="songs" style="display: none;"></div>
+        <div id="albums" style="display: none;"></div>
       </div>
     </div>
 

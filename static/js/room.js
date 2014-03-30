@@ -208,7 +208,7 @@ $(document).ready(function() {
         });
       });
     }
-  };
+  }
 
   $('.button-start').on('click', function() {
     var room_name = $('.js-roomname').val();
@@ -233,7 +233,7 @@ $(document).ready(function() {
       $('#p2-vid').prop('src', URL.createObjectURL(stream));
     }
   });
-  
+
   $(".btn-get-top-chart").on('click', function() {
       top_songs();
       $("#songs").show();

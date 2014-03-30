@@ -45,6 +45,7 @@
       text-align: center;
 
       #search-widget {
+        margin-top: 10px;
         display: inline-block;
         width: 500px;
 
@@ -100,4 +101,14 @@
 
 .ui-autocomplete-loading {
   background: white url('images/ui-anim_basic_16x16.gif') right center no-repeat;
+}
+
+#start-button {
+  text-align: center;
+  width: 200px;
+  height: 120px;
+  position: absolute;
+  bottom: 60px;
+  right: 20px;
+  margin-left: -100px;
 }

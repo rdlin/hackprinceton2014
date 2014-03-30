@@ -227,9 +227,9 @@ $(document).ready(function() {
 
   // TESTED DONE
   // Confirm player ready
-  $('.button-search').on('click', function() {
+  $('#start-button').on('click', function() {
     socket.emit('readyPlayer', {room: $('.js-room').val(), username: player});
-    $('.button-search').prop('disabled', true);
+    $('#start-button').prop('disabled', true);
   });
 
   // Game ready, initialize!

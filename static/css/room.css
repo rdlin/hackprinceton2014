@@ -33,6 +33,7 @@
   #content #container #top {
     text-align: center; }
     #content #container #top #search-widget {
+      margin-top: 10px;
       display: inline-block;
       width: 500px; }
       #content #container #top #search-widget #options-list #search-bar {
@@ -62,3 +63,12 @@
 
 .ui-autocomplete-loading {
   background: white url("images/ui-anim_basic_16x16.gif") right center no-repeat; }
+
+#start-button {
+  text-align: center;
+  width: 200px;
+  height: 120px;
+  position: absolute;
+  bottom: 60px;
+  right: 20px;
+  margin-left: -100px; }

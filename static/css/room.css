@@ -53,6 +53,8 @@
           float: right; }
       #content #container #top #search-widget #options-list #new-albumns {
         border-radius-bottom: 5px; }
+      #content #container #top #search-widget #results .result {
+        width: 100%; }
 
 .ui-autocomplete-loading {
   background: white url("images/ui-anim_basic_16x16.gif") right center no-repeat; }

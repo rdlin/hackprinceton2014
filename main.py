@@ -11,7 +11,6 @@ from rdio import Rdio
 from musixmatch import track
 import random
 import time
-from bs4 import BeautifulSoup
 import urllib2
 
 
@@ -62,9 +61,8 @@ def on_leave(data):
     username = data['username']
     room = data['room']
     leave_room(room)
-    # emit('left', room=room)
-    # send(username + ' has left the room.', room=room)
-    
+    send(username + ' has left the room.', room=room)
+
 @app.route('/leave/<room>/<username>/', methods=['POST'])
 def leave(room, username):
     collection.remove({'room': room, 'username':username})
@@ -279,7 +277,7 @@ def initPairPlayers(room_name):
 
     chosen.insert({'room1': room_name, 'username': selected[0]})
     chosen.insert({'room2': room_name, 'username': selected[1]})
-    
+
     return jsonify({'p1':selected[0], 'p2':selected[1]})
 
 # TESTED DONE
@@ -308,7 +306,7 @@ def getPairPlayers(room):
     return jsonify({'dummydata': 'chun is a b****'})
     # pdb.set_trace()
     # return jsonify([data=chosen.find_one({'room1': room})])
-    
+
 # Gets one player and returns the a pair, the person the player we are removing was previously mapped
 # and one new person
 # error out if no more valid players
@@ -327,7 +325,7 @@ def resetPlayers(room, username):
 
     # pdb.set_trace()
     random.choice(users)
-                   
+
     # this has not been tested at all
     if (valid.find({'room': room}).count() < 2):
         return jsonify(error="There should be at least 3 people who can/want to play for a game to start.")

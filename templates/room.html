@@ -49,8 +49,16 @@
             Get New Albums <span class="glyphicon glyphicon-chevron-down"></span>
           </button>
         </div>
+        <div id="ajax-spinner" style="display: none;">
+          <img src="{{ url_for('static', filename='images/spinner.gif') }}">
+        </div>
         <div id="results" style="display: none;"></div>
         <div id="albums" style="display: none;"></div>
+        <div id="search-results-hider" style="display: none;">
+          <button type="button" class="btn btn-warning">
+            <span class="glyphicon glyphicon-chevron-up"></span>
+          </button>
+        </div>
         <div id="selected" style="display: none;"></div>
       </div>
     </div>

@@ -7,6 +7,8 @@ var $selected = $('#selected');
 var curSelected;
 var socket;
 var playerSelected = false;
+var pl1;
+var pl2;
 
 $(document).ready(function() {
   socket = io.connect();
@@ -225,14 +227,12 @@ $(document).ready(function() {
   (function poll1() {
     if (!playerSelected) {
       $.ajax({ url: '/room/' + room_name + '/get_pair', success: function(data){
-        debugger;
         if (data.length == 0) {
           var i = 0;
           // To nothing
         } else {
           initGame(data.p1, data.p2);
         }
-        debugger;
       }, dataType: "json", complete: poll1, timeout: 2000 });
     }
   })();
@@ -260,14 +260,22 @@ $(document).ready(function() {
     });
   });
 
+  $("#retry-button").on('click', function() {
+    initGame(pl1, pl2)
+  });
+
   function initGame(p1, p2) {
     // p1, p2 call all other players
+    pl1 = p1;
+    pl2 = p2;
+    $("#retry-button").show();
     if (player === p1) {
       playerSelected = true;
       navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 
       // Call all other players with active media stream
       navigator.getUserMedia({video: true, audio: true}, function(stream) {
+        $("#retry-button").hide();
         // Show player 1 stream
         window.localStream = stream;
         $('#p1-vid').prop('src', URL.createObjectURL(stream));
@@ -277,18 +285,21 @@ $(document).ready(function() {
         }
 
         // Show player 2 stream
-        call.on('stream', function(remoteStream) {
+        peer.on('stream', function(remoteStream) {
           if (remoteStream) {
             $('#p2-vid').prop('src', URL.createObjectURL(remoteStream));
             window.remoteStream = remoteStream;
           }
         });
-      }, function(err) { console.log(err)} );
+      }, function(err) {
+        console.log(err)
+      });
     } else if (player === p2) {
       playerSelected = true;
       navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-
+      $("#retry-button").show();
       navigator.getUserMedia({video: true, audio: true}, function(stream) {
+        $("#retry-button").hide();
         // Show player 2 stream
         window.localStream = stream;
         $('#p1-vid').prop('src', URL.createObjectURL(stream));
@@ -306,13 +317,15 @@ $(document).ready(function() {
         });
 
         //Show player 1 stream
-        call.on('stream', function(remoteStream) {
+        peer.on('stream', function(remoteStream) {
           if (remoteStream) {
             $('#p2-vid').prop('src', URL.createObjectURL(remoteStream));
             window.remoteStream = remoteStream;
           }
         });
-      }, function(err) { console.log(err)} );
+      }, function(err) {
+        console.log(err)
+      });
     } else {
       // Answer the call with no media (judges)
       peer.on('call', function(call) {

@@ -334,6 +334,11 @@ def resetPlayers(room, username):
     if (valid.find({'room': room}).count() < 2):
         return jsonify(error="There should be at least 3 people who can/want to play for a game to start.")
 
+@app.route('/room/<room>/clean_state')
+def cleanState(room):
+    chosen.remove()
+    ready.remove()
+    # pdb.set_trace()
 
 # TESTED DONE
 # Returns a list of all players

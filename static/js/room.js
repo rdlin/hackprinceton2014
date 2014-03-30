@@ -272,7 +272,7 @@ $(document).ready(function() {
     pl2 = p2;
     if (player === p1) {
       playerSelected = true;
-      navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+      navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
 
       // Call all other players with active media stream
       navigator.getUserMedia({video: true, audio: true}, function(stream) {
@@ -341,6 +341,12 @@ $(document).ready(function() {
         }
       });
     }
+    setTimeout(function() {
+      playerSelected = false;
+      $.get('/room/' + room_name + '/clean_state', function(data) {
+        var i = 0; // my coolest placeholder!
+      });
+    }, 45000);
   }
 
   $('.button-start').on('click', function() {

@@ -1,5 +1,5 @@
 #top {
-  height: 600px;
+  min-height: 600px;
   width: 100%;
   text-align: center; }
   #top #search-widget {

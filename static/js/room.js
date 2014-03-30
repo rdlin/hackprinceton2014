@@ -53,6 +53,7 @@ $(document).ready(function() {
         $('#options-list').children().slideDown();
         func();
     };
+    $albums.slideUp();
     $results.slideUp(onComplete);
     $selected.slideUp();
   };
@@ -190,12 +191,75 @@ $(document).ready(function() {
         });
       }
     });
-  }
+  };
 
 
   // binds a listener to new albums
   var newAlbumListener = function() {
-    // $('#new-albums').on('click', new_albums());
+    $('#new-albums').on('click', function() {
+      var $this = $(this);
+      var $glyph = $this.children('span');
+      if ($this.hasClass('selected-option')) {
+        $this.removeClass('selected-option');
+        hideResults(function() {
+          $glyph.removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
+          $results.html('');
+        });
+      } else {
+        $spinner.slideDown();
+        $.get('/newalbums', function(data) {
+          var res = "";
+          for (var i = 0; i < Object.keys(data.data).length; i++) {
+            var $element = data.data[i];
+            if (res.length !== 0) {
+              res += "<br>";
+            }
+            res += '<button class="album result" value="' + $element.key + '">' + $element.name + ' &mdash; ' + $element.artist + '</button>';
+          }
+          $albums.html(res);
+          $spinner.hide();
+          showResults($this);
+          $this.addClass('selected-option');
+          $glyph.removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
+          $albums.slideDown();
+
+          $albums.find('button').on('click', function() {
+            var key = $(this).attr('value');
+            $albums.slideUp(function() {
+              $spinner.slideDown(function() {
+                $.get('/tracks/' + key, function(data) {
+                  var res = "";
+                  for (var i = 0; i < Object.keys(data.data).length; i++) {
+                    var $element = data.data[i];
+                    if (res.length !== 0) {
+                      res += "<br>";
+                    }
+                    res += '<button class="song result" value="' + $element.embedUrl + '" data-name="' + $element.name + '" data-artist="' + $element.artist + '">' + $element.name + ' &mdash; ' + $element.artist + '</button>';
+                  }
+                  $results.html(res);
+                  $spinner.hide();
+                  $results.slideDown();
+                  bindResultsListeners();
+                });
+              });
+            });
+
+            $results.find('button').on('click', function() {
+              $songs.html('<embed src="/static/images/spinner.gif"> ');
+              var url = $(this).attr('value');
+              var res = '<embed src="' + url + '">';
+              var name = $(this).data('name');
+              var artist = $(this).data('artist');
+              $.get('/lyrics/'+name+'/'+artist, function(data) {
+                $results.html(res+'<p>'+data+'</p>');
+              });
+            });
+          });
+
+        });
+      }
+    });
+
   };
 
   // binds all listeners needed for the rdio widget

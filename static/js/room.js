@@ -187,10 +187,12 @@ $(document).ready(function() {
   });
 
   // Game ready, initialize!
-  socket.on('game_ready', function() {
-    // TODO NEXT
-    //initGame(0, 1);
-    var i = 0;
+  socket.on('game_ready', function(room) {
+    debugger;
+    $.get({url:"/room/" + room, success: function(data) {
+      
+    });
+    initGame(0, 1);
   });
 
   function initGame(p1, p2) {

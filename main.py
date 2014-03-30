@@ -14,6 +14,7 @@ import time
 from bs4 import BeautifulSoup
 import urllib2
 
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yext1234'
 socketio = SocketIO(app)
@@ -243,6 +244,7 @@ def verify_search_results(search_results):
 
 # Randomly chooses two players and saves those two players for that room in the database
 # If there are not enough people, error message is displayed
+@socketio.on('initPairPlayers')
 @app.route('/room/<room_name>')
 def initPairPlayers(room_name):
     # Change this number to 3 eventually
@@ -256,6 +258,9 @@ def initPairPlayers(room_name):
     # from the database
     chosen.remove({'room1': room_name})
     chosen.remove({'room2': room_name})
+    print(selected)
+    print(selected.get(0))
+    print(selected.get(1))
     chosen.insert({'room1': room_name, 'username': selected.get(0)})
     chosen.insert({'room2': room_name, 'username': selected.get(1)})
     
@@ -276,7 +281,7 @@ def readyPlayer(data):
     for user in ready.find({'room': room}):
         number += 1
     if number >= 3:
-        emit('game_ready');
+        emit('game_ready', room);
 
 # Once two players have been chosen, this just returns a map of those two players
 @app.route('/room/<room>')
